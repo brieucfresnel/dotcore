@@ -48,7 +48,7 @@ if (!class_exists('DOT_Init')) {
         function register_required_plugins() {
             $plugins = array(
 
-                // Bundled plug-ins
+                // Plug-ins that need licence key
                 array(
                     'name' => 'Advanced Custom Fields Pro',
                     'slug' => 'advanced-custom-fields-pro',
@@ -69,11 +69,6 @@ if (!class_exists('DOT_Init')) {
                 array(
                     'name' => 'Advanced Custom Fields : Extended',
                     'slug' => 'acf-extended',
-                    'required' => true,
-                ),
-                array(
-                    'name' => 'GDPR Cookie Compliance (CCPA ready)',
-                    'slug' => 'gdpr-cookie-compliance',
                     'required' => true,
                 ),
                 array(
@@ -110,7 +105,7 @@ if (!class_exists('DOT_Init')) {
                 // If false, a user cannot dismiss the nag message.
                 'dismiss_msg' => '',
                 // If 'dismissable' is false, this message will be output at top of nag.
-                'is_automatic' => false,
+                'is_automatic' => true,
                 // Automatically activate plugins after installation or not.
                 'message' => '',
                 // Message to output right before the plugins table.
