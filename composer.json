@@ -1,0 +1,14 @@
+{
+    "name": "dot/dotstarter",
+    "description": "Studio DOT's Wordpress ACF-based framework",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Studio DOT",
+            "email": "dev@studio-dot.fr"
+        }
+    ],
+    "require": {
+        "tgmpa/tgm-plugin-activation": "^2.6"
+    }
+}

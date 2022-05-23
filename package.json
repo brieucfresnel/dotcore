@@ -1,0 +1,41 @@
+{
+  "name": "dot-core",
+  "version": "1.0.0",
+  "description": "Studio DOT's Wordpress ACF-based framework",
+  "main": "assets/js/index.js",
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp build --prod"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/register": "^7.17.7",
+    "autoprefixer": "^10.4.5",
+    "babel-loader": "^8.2.5",
+    "browser-sync": "^2.27.9",
+    "css-mqpacker": "^7.0.0",
+    "cssnano": "^5.1.7",
+    "del": "^6.1.0",
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-deporder": "^1.2.0",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^8.0.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-postcss": "^9.0.1",
+    "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-strip-debug": "^4.0.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-util": "^3.0.8",
+    "node-sass": "^7.0.1",
+    "postcss-assets": "^6.0.0",
+    "webpack-stream": "^7.0.0",
+    "yargs": "^17.4.1",
+    "vinyl-named": "^1.1.0"
+  }
+}
