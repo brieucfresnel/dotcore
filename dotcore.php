@@ -30,10 +30,6 @@ if (!class_exists('DotCore')) {
         private bool $acf = false;
 
         public function __construct() {
-            if (!$this->has_acf()) {
-                exit;
-            }
-
             define('DOT_VERSION', $this->version);
             define('DOT_FILE', __FILE__);
             define('DOT_CORE_PATH', plugin_dir_path(__FILE__));
@@ -49,6 +45,10 @@ if (!class_exists('DotCore')) {
             define('DOT_THEME_STYLE_ADMIN_FILENAME', 'styles-admin');
 
             include_once(DOT_CORE_PATH . 'init.php');
+
+            if (!$this->has_acf()) {
+                return;
+            }
 
             $this->init();
 
