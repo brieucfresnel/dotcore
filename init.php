@@ -41,6 +41,10 @@ if (!class_exists('DOT_Init')) {
 
         }
 
+        /**
+         * @return void
+         * @throws Exception
+         */
         function register_required_plugins() {
             $plugins = array(
 
@@ -112,7 +116,11 @@ if (!class_exists('DOT_Init')) {
                 // Message to output right before the plugins table.
             );
 
-            tgmpa($plugins, $config);
+            try {
+                tgmpa($plugins, $config);
+            } catch (Exception $e) {
+                throw new Exception('This plugin requires composer and npm configuration. Please follow the instructions in readme.md');
+            }
         }
     }
 
