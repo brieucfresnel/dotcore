@@ -157,6 +157,12 @@ if (!class_exists('MainFlexible')) {
             }
 
             foreach ($field_groups as $field_group) {
+                $is_layout = acf_maybe_get($field_group, 'dot_is_layout');
+
+                if(!$is_layout) {
+                    continue;
+                }
+
                 if (str_contains($field_group['key'], 'acfe')
                     || $field_group['key'] === $this->main_group_key
                     || $field_group['key'] === $this->settings_group_key) {
@@ -168,9 +174,9 @@ if (!class_exists('MainFlexible')) {
                 $layout_slug = str_replace('-', '_', $name);
                 $file_path = DOT_THEME_LAYOUTS_PATH . $name . '/';
 
-                $render_layout = $file_path . $layout_slug . '.php';
-                $render_script = $file_path . $layout_slug . '.js';
-                $render_style = $file_path . $layout_slug . '.css';
+                $render_layout = $file_path . $name . '.php';
+                $render_script = $file_path . $name . '.js';
+                $render_style = $file_path . $name . '.css';
 
                 if (!file_exists($render_style)) {
                     $render_style = null;
@@ -192,12 +198,12 @@ if (!class_exists('MainFlexible')) {
                         break;
                 }
 
-                $is_layout = $field_group['dot_is_layout'];
-
                 // Store layout
+
                 $layouts[] = array(
                     'key' => 'layout_' . $layout_slug,
-                    '_dot_layout_slug' => $layout_slug,
+                    'dot_layout_slug' => $layout_slug,
+                    'dot_is_layout' => 1,
                     'name' => $name,
                     'label' => $title,
                     'display' => $display,
@@ -228,12 +234,12 @@ if (!class_exists('MainFlexible')) {
                     'acfe_flexible_render_template' => $render_layout,
                     'acfe_flexible_render_style' => $render_style,
                     'acfe_flexible_render_script' => $render_script,
-                    'dot_is_layout' => $is_layout,
                     'acfe_flexible_settings' => array(
                         0 => $this->settings_group_key,
                     ),
                 );
             }
+
 
             $this->layouts = $layouts;
         }

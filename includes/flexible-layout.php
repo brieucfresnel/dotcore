@@ -80,19 +80,3 @@ if (!class_exists('FlexibleLayout')) {
 
     new FlexibleLayout();
 }
-
-add_filter('acf/render_field_group_settings', 'dot_acf_field_groups_add_settings', 10);
-function dot_acf_field_groups_add_settings($field_group) {
-    acf_render_field_wrap(array(
-        'label' => __('Ajouter aux dispositions', 'acf'),
-        'instructions' => __('Ajouter aux dispositions', 'acf'),
-        'type' => 'true_false',
-        'name' => 'dot_is_layout',
-        'prefix' => 'acf_field_group',
-        'default_value' => true,
-        'ui' => true,
-        'ui_on_text'        => 'Oui',
-        'ui_off_text'       => 'Non',
-        'value' => (isset($field_group['dot_is_layout'])) ? $field_group['dot_is_layout'] : '',
-    ));
-}
