@@ -6,12 +6,10 @@ if (!class_exists('FlexibleLayout')) {
         private array $settings;
 
         public function __construct() {
-            if(!is_admin()) {
-                add_action(
-                    "acfe/flexible/render/before_template/name=" . MainFlexible::$name,
-                    array($this, 'before_template'), 10, 3);
-                add_action('acfe/flexible/render/after_template', array($this, 'after_template'), 10, 3);
-            }
+            add_action(
+                "acfe/flexible/render/before_template/name=" . MainFlexible::$name,
+                array($this, 'before_template'), 10, 3);
+            add_action('acfe/flexible/render/after_template', array($this, 'after_template'), 10, 3);
         }
 
         public function before_template($field, $layout, $is_preview) {
@@ -22,7 +20,7 @@ if (!class_exists('FlexibleLayout')) {
             $settings = get_sub_field($layout['sub_fields'][0]['key']);
             $this->settings = $settings;
 
-            echo $this->get_header();
+            echo $this->get_header($is_preview);
             echo $this->get_container();
         }
 
@@ -33,9 +31,12 @@ if (!class_exists('FlexibleLayout')) {
         /**
          * @return string
          */
-        public function get_header(): string {
+        public function get_header($is_preview = false): string {
             $classes = array('layout');
             $classes[] = 'f-' . str_replace('_', '-', get_row_layout());
+            if ($is_preview) {
+                $classes[] = 'is-preview';
+            }
 
             if (str_contains(get_row_layout(), 'slider')) {
                 $classes[] = 'o-slider';
