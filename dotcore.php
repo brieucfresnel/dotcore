@@ -35,6 +35,7 @@ if (!class_exists('DotCore')) {
             define('DOT_CORE_PATH', plugin_dir_path(__FILE__));
             define('DOT_BASENAME', plugin_basename(__FILE__));
             define('DOT_THEME_PATH', get_stylesheet_directory_uri());
+            define('DOT_THEME_INCLUDES_PATH', get_template_directory() . '/includes/');
             define('DOT_THEME_DOTCORE_PATH', get_stylesheet_directory() . '/dotcore/');
             define('DOT_THEME_DOTCORE_URL', get_stylesheet_directory_uri() . '/dotcore/');
             define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/layouts/');
@@ -66,7 +67,7 @@ if (!class_exists('DotCore')) {
             require_once(DOT_CORE_PATH . 'helpers.php');
             require_once(DOT_CORE_PATH . 'includes/options-pages.php');
             require_once(DOT_CORE_PATH . 'includes/main-flexible.php');
-            require_once(DOT_CORE_PATH . 'includes/flexible-layout.php');
+            require_once(DOT_CORE_PATH . 'includes/flexible-layout-settings.php');
         }
 
         /**

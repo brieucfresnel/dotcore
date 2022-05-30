@@ -50,6 +50,8 @@ if (!class_exists('MainFlexible')) {
             $this->set_layouts();
             $this->create_main_group();
             $this->create_main_flexible_field();
+
+            add_filter('acf/render_field_group_settings', array($this, 'acf_field_groups_add_settings'), 10, 1);
         }
 
         /**
@@ -148,6 +150,9 @@ if (!class_exists('MainFlexible')) {
             ));
         }
 
+        /**
+         * @return void
+         */
         public function set_layouts() {
             $field_groups = acf_get_field_groups();
             $layouts = [];
@@ -159,7 +164,7 @@ if (!class_exists('MainFlexible')) {
             foreach ($field_groups as $field_group) {
                 $is_layout = acf_maybe_get($field_group, 'dot_is_layout');
 
-                if(!$is_layout) {
+                if (!$is_layout) {
                     continue;
                 }
 
@@ -244,6 +249,9 @@ if (!class_exists('MainFlexible')) {
             $this->layouts = $layouts;
         }
 
+        /**
+         * @return void
+         */
         private function create_layout_settings_field_group() {
             acf_add_local_field_group(array(
                 'key' => $this->settings_group_key,
@@ -370,6 +378,21 @@ if (!class_exists('MainFlexible')) {
                 'acfe_form' => 0,
                 'acfe_meta' => '',
                 'acfe_note' => '',
+            ));
+        }
+
+        public function acf_field_groups_add_settings($field_group) {
+            acf_render_field_wrap(array(
+                'label' => __('Ajouter aux dispositions', 'acf'),
+                'instructions' => __('Ajouter aux dispositions', 'acf'),
+                'type' => 'true_false',
+                'name' => 'dot_is_layout',
+                'prefix' => 'acf_field_group',
+                'default_value' => true,
+                'ui' => true,
+                'ui_on_text' => 'Oui',
+                'ui_off_text' => 'Non',
+                'value' => (isset($field_group['dot_is_layout'])) ? $field_group['dot_is_layout'] : '',
             ));
         }
 
