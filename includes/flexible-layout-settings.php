@@ -82,7 +82,7 @@ if (!class_exists('FlexibleLayoutSettings')) {
             $header_html .= '>';
             // Header
             if (!empty($this->settings['title'])) {
-                $header_html .= '<header class="layout__header"><div class="l-container">';
+                $header_html .= '<header class="layout__header"><div class="container">';
                 $header_html .= '<h2 class="layout__title">' . esc_html($this->settings['title']) . '</h2>';
                 $header_html .= '</div></header>';
             }
@@ -97,7 +97,7 @@ if (!class_exists('FlexibleLayoutSettings')) {
 
         public function get_container() {
             return $this->settings['contained'] === true
-                ? '<div class="l-container">'
+                ? '<div class="container">'
                 : '<div class="fluid-container">';
         }
     }

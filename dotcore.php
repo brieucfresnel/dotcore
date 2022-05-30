@@ -36,10 +36,8 @@ if (!class_exists('DotCore')) {
             define('DOT_BASENAME', plugin_basename(__FILE__));
             define('DOT_THEME_PATH', get_stylesheet_directory_uri());
             define('DOT_THEME_INCLUDES_PATH', get_template_directory() . '/includes/');
-            define('DOT_THEME_DOTCORE_PATH', get_stylesheet_directory() . '/dotcore/');
-            define('DOT_THEME_DOTCORE_URL', get_stylesheet_directory_uri() . '/dotcore/');
-            define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/layouts/');
-            define('DOT_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/layouts/');
+            define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/templates/layouts/');
+            define('DOT_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/templates/layouts/');
             define('DOT_THEME_ASSETS_PATH', get_stylesheet_directory() . '/assets/');
             define('DOT_THEME_ASSETS_URL', get_stylesheet_directory_uri() . '/assets/');
             define('DOT_THEME_STYLE_FILENAME', 'styles');
