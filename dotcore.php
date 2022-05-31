@@ -13,6 +13,8 @@
  * Domain Path:       languages
  */
 
+namespace DOT\Core;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -21,10 +23,9 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require(__DIR__ . '/vendor/autoload.php');
 }
 
-if (!class_exists('DotCore')) {
-    class DotCore {
-        private static DotCore $_instance;
 
+if (!class_exists('DOT_Core')) {
+    class DOT_Core {
         public string $version = '0.0.1';
 
         private bool $acf = false;
@@ -54,29 +55,24 @@ if (!class_exists('DotCore')) {
             add_action('acf/init', array($this, 'load'));
         }
 
+        public function load() {
+            require_once(DOT_CORE_PATH . 'helpers.php');
+
+            acf_get_instance('\DOT\Core\MainFlexible');
+            acf_get_instance('\DOT\Core\LayoutSettings');
+            acf_get_instance('\DOT\Core\FieldGroup');
+            acf_get_instance('\DOT\Core\Layouts');
+            acf_get_instance('\DOT\Core\Admin\Admin');
+            acf_get_instance('\DOT\Core\Admin\Menus');
+            acf_get_instance('\DOT\Core\Admin\LayoutsList');
+            acf_get_instance('\DOT\Core\Admin\LayoutsSingle');
+        }
+
         public function init() {
 //            add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
 //            add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
             add_filter('script_loader_tag', array($this, 'set_scripts_type_module_attribute'), 10, 3);
             add_action('wp_head', array($this, 'setup_GTM'));
-        }
-
-        public function load() {
-            require_once(DOT_CORE_PATH . 'helpers.php');
-            require_once(DOT_CORE_PATH . 'includes/options-pages.php');
-            require_once(DOT_CORE_PATH . 'includes/main-flexible.php');
-            require_once(DOT_CORE_PATH . 'includes/flexible-layout-settings.php');
-        }
-
-        /**
-         * @return DotCore
-         */
-        public static function instance(): DotCore {
-            if (!isset(self::$_instance)) {
-                self::$_instance = new DotCore();
-            }
-
-            return self::$_instance;
         }
 
         public function enqueue_styles() {
@@ -145,5 +141,5 @@ if (!class_exists('DotCore')) {
         }
     }
 
-    new DotCore();
+    acf_get_instance('\DOT\Core\DOT_Core');
 }

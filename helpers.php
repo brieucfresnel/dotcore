@@ -1,6 +1,36 @@
 <?php
 
 /**
+ * @return Array
+ */
+function dot_get_layouts() : array {
+    return acf_get_instance('\DOT\Core\Layouts')->get_layouts();
+}
+
+/**
+ * @return void
+ */
+function the_dot_layouts() {
+    if (has_flexible(acf_get_instance('\DOT\Core\MainFlexible')->get_field_key())):
+        the_flexible(acf_get_instance('\DOT\Core\MainFlexible')->get_field_key());
+    endif;
+}
+
+/**
+ * @param $field_group
+ */
+function dot_is_layout($field_group) {
+    return acf_get_instance('\DOT\Core\Layouts')->is_layout($field_group);
+}
+
+/**
+ * @return mixed
+ */
+function dot_is_layout_screen() {
+    return acf_get_instance('\DOT\Core\Layouts')->is_layout_screen();
+}
+
+/**
  * Récupérer l'URL du custom logo avec un fallback s'il n'est pas défini
  * @return string
  */
