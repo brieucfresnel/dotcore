@@ -7,6 +7,11 @@ class Layouts {
 
     }
 
+    /**
+     * Get the registered flexible layouts
+     *
+     * @return array
+     */
     public function get_layouts() : array {
         $field_groups = acf_get_field_groups();
         $layouts = [];
