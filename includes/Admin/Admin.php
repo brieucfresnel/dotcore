@@ -9,29 +9,38 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
             add_filter('parent_file', array($this, 'menu_parent_file'));
             add_filter('submenu_file', array($this, 'menu_submenu_file'));
             add_filter('admin_url', array($this, 'change_admin_url'), 10, 2);
-            add_action( 'in_admin_header', array( $this, 'add_navbar' ) );
+            add_action('in_admin_header', array($this, 'add_navbar'));
         }
 
+        /**
+         * @return void
+         */
         public function add_navbar() {
-            if ( $this->is_dot_admin_page() ) {
+            if ($this->is_dot_admin_page()) {
                 $this->display_navbar();
             }
         }
 
+        /**
+         * @return void
+         */
         public function display_navbar() {
-            add_filter( 'acf/admin/toolbar', '__return_false' );
+            add_filter('acf/admin/toolbar', '__return_false');
         }
 
-        public function is_dot_admin_page() {
+        /**
+         * @return bool
+         */
+        public function is_dot_admin_page(): bool {
 
             $is_dot_admin = false;
 
             $layouts = acf_get_instance('\DOT\Core\Layouts');
 
             if (
-                acf_maybe_get_GET( 'layouts' ) === '1' ||
-                acf_maybe_get_GET( 'layout' ) === '1' ||
-                $layouts->is_layout( get_post( acf_maybe_get_GET( 'post' ) ) )
+                acf_maybe_get_GET('layouts') === '1' ||
+                acf_maybe_get_GET('layout') === '1' ||
+                $layouts->is_layout(get_post(acf_maybe_get_GET('post')))
             ) {
                 $is_dot_admin = true;
             }
