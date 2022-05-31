@@ -16,7 +16,7 @@ class Menus {
             "menu_title" => __('DotStarter', 'dotcore'),
             "capability" => 'edit_posts',
             "menu_slug" => $main_page_slug,
-            "callback" => array(acf_get_instance('DOT\Core\FieldGroup'), 'layouts_list'),
+            "callback" => array($this, 'dashboard'),
             "icon" => DOT_THEME_ASSETS_URL . '/icons/logo-dot.svg',
             "position" => '82'
         );
@@ -35,19 +35,16 @@ class Menus {
             20,
         );
     }
+
+    public function dashboard() {
+        ob_start();
+        ?>
+        <div class="card">
+            <h1> <?php _e('DotStarter', 'dotcore') ?></h1>
+            <p>Dashboard development is still ongoing. Please come back later.</p>
+        </div>
+
+        <?php ob_end_flush();
+    }
 }
 
-//            acf_add_options_page(array(
-//                'page_title' => ,
-//                'menu_title' => __('Réglages du site', 'dotcore'),
-//                'menu_slug' => ,
-//                'capability' => 'edit_posts',
-//                'position' => '',
-//                'parent_slug' => '',
-//                'icon_url' => ,
-//                'redirect' => false,
-//                'post_id' => 'options',
-//                'autoload' => false,
-//                'update_button' => __('Mettre à jour', 'dotcore'),
-//                'updated_message' => __('Réglages mis à jour', 'dotcore'),
-//            ));
