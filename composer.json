@@ -1,5 +1,5 @@
 {
-    "name": "dot/dotstarter",
+    "name": "dot/core",
     "description": "Studio DOT's Wordpress ACF-based framework",
     "type": "wordpress-plugin",
     "authors": [
@@ -10,5 +10,10 @@
     ],
     "require": {
         "tgmpa/tgm-plugin-activation": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "DOT\\Core\\": "includes/"
+        }
     }
 }
