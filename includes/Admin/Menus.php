@@ -25,15 +25,30 @@ class Menus {
             $main_page["page_title"], $main_page["menu_title"], $main_page["capability"], $main_page["menu_slug"], $main_page["callback"], $main_page["icon"], $main_page["position"]
         );
 
-        add_submenu_page(
-            $main_page_slug,
-            __('Dispositions', 'dotcore'),
-            __('Dispositions', 'dotcore'),
-            'edit_posts',
-            'edit.php?post_type=acf-field-group&layouts=1',
-            null,
-            20,
+        $submenus = array(
+            array(
+                'parent_slug' => $main_page_slug,
+                'page_title' => __('Layouts', 'dotcore'),
+                'menu_title' => __('Layouts', 'dotcore'),
+                'capability' => 'edit_posts',
+                'menu_slug' => 'edit.php?post_type=acf-field-group&layouts=1',
+                'callback' => null,
+                'position' => 20,
+            ),
+            array(
+                'parent_slug' => $main_page_slug,
+                'page_title' => __('Components', 'dotcore'),
+                'menu_title' => __('Components', 'dotcore'),
+                'capability' => 'edit_posts',
+                'menu_slug' => 'edit.php?post_type=acf-field-group&components=1',
+                'callback' => null,
+                'position' => 20,
+            )
         );
+
+        foreach ($submenus as $submenu) {
+            add_submenu_page($submenu['parent_slug'], $submenu['page_title'], $submenu['menu_title'], $submenu['capability'], $submenu['menu_slug'], $submenu['callback'], $submenu['position']);
+        }
     }
 
     public function dashboard() {
