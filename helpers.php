@@ -1,5 +1,18 @@
 <?php
 
+function the_component(string $type, string $selector) {
+    $available = false;
+    $available_components = dot_get_components();
+
+    foreach($available_components as $component) {
+        if($component['dot_component_slug'] === $type) {
+            $available = true;
+        }
+    }
+
+    get_template_part('templates/components/' . $type . '/' . $type, null, get_sub_field($selector));
+}
+
 /**
  * @return Array
  */
@@ -17,7 +30,15 @@ function the_dot_layouts() {
 }
 
 /**
+ * @return Array
+ */
+function dot_get_components() : array {
+    return acf_get_instance('\DOT\Core\Components')->get_components();
+}
+
+/**
  * @param $field_group
+ * @return mixed
  */
 function dot_is_layout($field_group) {
     return acf_get_instance('\DOT\Core\Layouts')->is_layout($field_group);
@@ -28,6 +49,21 @@ function dot_is_layout($field_group) {
  */
 function dot_is_layout_screen() {
     return acf_get_instance('\DOT\Core\Layouts')->is_layout_screen();
+}
+
+/**
+ * @param $field_group
+ * @return mixed
+ */
+function dot_is_component($field_group) {
+    return acf_get_instance('\DOT\Core\Components')->is_component($field_group);
+}
+
+/**
+ * @return mixed
+ */
+function dot_is_component_screen() {
+    return acf_get_instance('\DOT\Core\Components')->is_component_screen();
 }
 
 /**
