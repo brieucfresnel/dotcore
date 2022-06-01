@@ -3,10 +3,6 @@
 namespace DOT\Core;
 
 class Layouts {
-    public function __construct() {
-
-    }
-
     /**
      * Get the registered flexible layouts
      *
@@ -17,7 +13,7 @@ class Layouts {
         $layouts = [];
 
         foreach ($field_groups as $field_group) {
-            if (!dot_is_layout($field_group)) {
+            if (!$this->is_layout($field_group)) {
                 continue;
             }
 
