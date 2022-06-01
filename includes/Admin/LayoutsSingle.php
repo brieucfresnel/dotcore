@@ -19,6 +19,12 @@ class LayoutsSingle {
 
         // New
         add_action('load-post-new.php', array($this, 'load_new'));
+
+        // Edit
+        add_action('load-post-edit.php', array($this, 'load_edit'));
+
+        // Validate before save
+        add_filter('acf/validate_field_group', array($this, 'validate_layout'), 10, 1);
     }
 
     public function load_single() {
@@ -27,7 +33,31 @@ class LayoutsSingle {
     }
 
     public function load_new() {
-        add_action('acf/save_post', 'save_field_group', 5);
+
+    }
+
+    public function load_edit() {
+    }
+
+    /**
+     * validate_layout
+     *
+     * validate layout slug and generate it if needed
+     *
+     * @param $field_group
+     * @return void
+     */
+    public function validate_layout($layout) {
+        $layout_slug = acf_maybe_get($layout, 'dot_layout_slug');
+
+        if(!empty($layout_slug))
+            return $layout;
+
+        $slug = sanitize_title($layout['title']);
+
+        $layout['dot_layout_slug'] = $slug;
+
+        return $layout;
     }
 
     public function metaboxes() {
@@ -51,31 +81,21 @@ class LayoutsSingle {
 
         // Get field group
         $field_group = $meta_box['args']['field_group'];
-        $layout_slug = acf_maybe_get($field_group, 'dot_layout_slug') ? sanitize_title($field_group['dot_layout_slug']) : 'layout';
+        $layout_slug = acf_maybe_get($field_group, 'dot_layout_slug') ? sanitize_title($field_group['dot_layout_slug']) : '';
 
-        // Layout settings
         acf_render_field_wrap(
             array(
-                'label' => 'Layout',
-                'type' => 'tab',
+                'label' => __('Layout Slug', 'dotcore'),
+                'name' => 'dot_layout_slug',
+                'prefix' => 'acf_field_group',
+                'type' => 'text',
+                'instructions' => '',
+                'value' => $layout_slug,
+                'placeholder' => __('layout-slug', 'dotcore'),
+                'required' => false,
             )
         );
 
-//        // Layout slug
-//        acf_render_field_wrap(
-//            array(
-//                'label' => __('Layout slug', 'dotcore'),
-//                'instructions' => __('Layout slug and layout folder name', 'dotcore'),
-//                'type' => 'text',
-//                'name' => 'dot_layout_slug',
-//                'prefix' => 'acf_field_group',
-//                'placeholder' => 'layout',
-//                'required' => 1,
-//                'value' => isset($field_group['dot_layout_slug']) ? $field_group['dot_layout_slug'] : $layout_slug,
-//            )
-//        );
-
-        // Layout settings
         acf_render_field_wrap(
             array(
                 'label' => '',
