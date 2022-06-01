@@ -39,6 +39,8 @@ if (!class_exists('DOT_Core')) {
             define('DOT_THEME_INCLUDES_PATH', get_template_directory() . '/includes/');
             define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/templates/layouts/');
             define('DOT_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/templates/layouts/');
+            define('DOT_THEME_COMPONENTS_PATH', get_stylesheet_directory() . '/templates/components/');
+            define('DOT_THEME_COMPONENTS_URL', get_stylesheet_directory_uri() . '/templates/components/');
             define('DOT_THEME_ASSETS_PATH', get_stylesheet_directory() . '/assets/');
             define('DOT_THEME_ASSETS_URL', get_stylesheet_directory_uri() . '/assets/');
             define('DOT_THEME_STYLE_FILENAME', 'styles');
@@ -58,14 +60,27 @@ if (!class_exists('DOT_Core')) {
         public function load() {
             require_once(DOT_CORE_PATH . 'helpers.php');
 
+            // Core
+            acf_get_instance('\DOT\Core\PostTypes');
+
+            // ACF
             acf_get_instance('\DOT\Core\MainFlexible');
             acf_get_instance('\DOT\Core\LayoutSettings');
-            acf_get_instance('\DOT\Core\FieldGroup');
             acf_get_instance('\DOT\Core\Layouts');
+            acf_get_instance('\DOT\Core\Components');
+
+            // Admin
             acf_get_instance('\DOT\Core\Admin\Admin');
             acf_get_instance('\DOT\Core\Admin\Menus');
+
             acf_get_instance('\DOT\Core\Admin\LayoutsList');
             acf_get_instance('\DOT\Core\Admin\LayoutsSingle');
+
+            acf_get_instance('\DOT\Core\Admin\ComponentsList');
+            acf_get_instance('\DOT\Core\Admin\ComponentsSingle');
+
+            // Fields
+            acf_register_field_type('DOT\Core\Fields\FieldComponent');
         }
 
         public function init() {
