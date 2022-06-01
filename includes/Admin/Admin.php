@@ -35,12 +35,14 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
 
             $is_dot_admin = false;
 
-            $layouts = acf_get_instance('\DOT\Core\Layouts');
-
             if (
                 acf_maybe_get_GET('layouts') === '1' ||
                 acf_maybe_get_GET('layout') === '1' ||
-                $layouts->is_layout(get_post(acf_maybe_get_GET('post')))
+                dot_is_layout(get_post(acf_maybe_get_GET('post'))) ||
+
+                acf_maybe_get_GET('components') === '1' ||
+                acf_maybe_get_GET('component') === '1' ||
+                dot_is_component(get_post(acf_maybe_get_GET('post')))
             ) {
                 $is_dot_admin = true;
             }
@@ -57,7 +59,7 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
          */
         public function menu_parent_file($parent_file) {
 
-            if (dot_is_layout_screen()) {
+            if (dot_is_layout_screen() || dot_is_component_screen()) {
                 global $pagenow, $plugin_page;
 
                 $pagenow = 'dotstarter';
@@ -78,12 +80,12 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
 
             global $current_screen;
 
-            $layouts = acf_get_instance('\DOT\Core\Layouts');
-
-            // Define submenu for Layouts menu
-            $is_layout = $layouts->is_layout(acf_maybe_get_GET('post'));
-            if (acf_maybe_get_GET('layouts') === '1' || $is_layout || acf_maybe_get_GET('layout') === '1') {
+            if (dot_is_layout_screen()) {
                 $submenu_file = 'edit.php?post_type=acf-field-group&layouts=1';
+            }
+
+            if (dot_is_component_screen()) {
+                $submenu_file = 'edit.php?post_type=acf-field-group&components=1';
             }
 
             return $submenu_file;
@@ -106,12 +108,24 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
                 $url = $url . '&layout=1';
             }
 
-            $layouts = acf_get_instance('\DOT\Core\Layouts');
-
             // Modify "Add new" link on layout single page
-            $is_layout = $layouts->is_layout(acf_maybe_get_GET('post'));
+            $is_layout = dot_is_layout((acf_maybe_get_GET('post')));
+
             if ($path === 'post-new.php?post_type=acf-field-group' && $is_layout) {
                 $url = $url . '&layout=1';
+            }
+
+            // Modify "Add new" link on components page
+            if ($path === 'post-new.php?post_type=acf-field-group' && acf_maybe_get_GET('components') === '1') {
+                // Add argument
+                $url = $url . '&component=1';
+            }
+
+            // Modify "Add new" link on component single page
+            $is_component = dot_is_component((acf_maybe_get_GET('post')));
+
+            if ($path === 'post-new.php?post_type=acf-field-group' && $is_component) {
+                $url = $url . '&component=1';
             }
 
             return $url;
