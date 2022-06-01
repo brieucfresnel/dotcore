@@ -134,14 +134,13 @@ if (!class_exists('MainFlexible')) {
             }
 
             foreach ($field_groups as $field_group) {
-//                dot_print_r($field_group); echo '<br/><br/>'; die;
                 if (!dot_is_layout($field_group)) {
                     continue;
                 }
 
                 $title = $field_group['title'];
                 $name = sanitize_title($field_group['title']);
-                $layout_slug = str_replace('-', '_', $name);
+                $layout_slug = $field_group['dot_layout_slug'];
                 $file_path = DOT_THEME_LAYOUTS_PATH . $name . '/';
 
                 $render_layout = $file_path . $name . '.php';
@@ -171,7 +170,7 @@ if (!class_exists('MainFlexible')) {
                 // Store layout
 
                 $layouts[] = array(
-                    'key' => 'layout_' . $layout_slug,
+                    'key' => 'group_' . $layout_slug,
                     'dot_layout_slug' => $layout_slug,
                     'dot_is_layout' => 1,
                     'name' => $name,
