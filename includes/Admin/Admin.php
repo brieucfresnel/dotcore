@@ -40,9 +40,9 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
                 acf_maybe_get_GET('layout') === '1' ||
                 dot_is_layout(get_post(acf_maybe_get_GET('post'))) ||
 
-                acf_maybe_get_GET('components') === '1' ||
-                acf_maybe_get_GET('component') === '1' ||
-                dot_is_component(get_post(acf_maybe_get_GET('post')))
+                acf_maybe_get_GET('layout_parts') === '1' ||
+                acf_maybe_get_GET('layout_part') === '1' ||
+                dot_is_layout_part(get_post(acf_maybe_get_GET('post')))
             ) {
                 $is_dot_admin = true;
             }
@@ -59,7 +59,7 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
          */
         public function menu_parent_file($parent_file) {
 
-            if (dot_is_layout_screen() || dot_is_component_screen()) {
+            if (dot_is_layout_screen() || dot_is_layout_part_screen()) {
                 global $pagenow, $plugin_page;
 
                 $pagenow = 'dotstarter';
@@ -84,8 +84,8 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
                 $submenu_file = 'edit.php?post_type=acf-field-group&layouts=1';
             }
 
-            if (dot_is_component_screen()) {
-                $submenu_file = 'edit.php?post_type=acf-field-group&components=1';
+            if (dot_is_layout_part_screen()) {
+                $submenu_file = 'edit.php?post_type=acf-field-group&layout_parts=1';
             }
 
             return $submenu_file;
@@ -115,17 +115,17 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
                 $url = $url . '&layout=1';
             }
 
-            // Modify "Add new" link on components page
-            if ($path === 'post-new.php?post_type=acf-field-group' && acf_maybe_get_GET('components') === '1') {
+            // Modify "Add new" link on layout parts page
+            if ($path === 'post-new.php?post_type=acf-field-group' && acf_maybe_get_GET('layout_parts') === '1') {
                 // Add argument
-                $url = $url . '&component=1';
+                $url = $url . '&layout_part=1';
             }
 
-            // Modify "Add new" link on component single page
-            $is_component = dot_is_component((acf_maybe_get_GET('post')));
+            // Modify "Add new" link on layout part single page
+            $is_layout_part = dot_is_layout_part((acf_maybe_get_GET('post')));
 
-            if ($path === 'post-new.php?post_type=acf-field-group' && $is_component) {
-                $url = $url . '&component=1';
+            if ($path === 'post-new.php?post_type=acf-field-group' && $is_layout_part) {
+                $url = $url . '&layout_part=1';
             }
 
             return $url;

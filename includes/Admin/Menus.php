@@ -37,10 +37,19 @@ class Menus {
             ),
             array(
                 'parent_slug' => $main_page_slug,
+                'page_title' => __('Layout Parts', 'dotcore'),
+                'menu_title' => __('Layout Parts', 'dotcore'),
+                'capability' => 'edit_posts',
+                'menu_slug' => 'edit.php?post_type=acf-field-group&layout_parts=1',
+                'callback' => null,
+                'position' => 20,
+            ),
+            array(
+                'parent_slug' => $main_page_slug,
                 'page_title' => __('Components', 'dotcore'),
                 'menu_title' => __('Components', 'dotcore'),
                 'capability' => 'edit_posts',
-                'menu_slug' => 'edit.php?post_type=acf-field-group&components=1',
+                'menu_slug' => 'edit.php?post_type=component',
                 'callback' => null,
                 'position' => 20,
             )

@@ -4,7 +4,7 @@ namespace DOT\Core\Fields;
 
 use acf_field;
 
-class FieldComponent extends acf_field {
+class FieldLayoutPart extends acf_field {
 
 
     /*
@@ -23,8 +23,8 @@ class FieldComponent extends acf_field {
     function initialize() {
 
         // vars
-        $this->name = 'component';
-        $this->label = _x('Component', 'noun', 'acf');
+        $this->name = 'layout_part';
+        $this->label = _x('Layout Part', 'noun', 'acf');
         $this->category = 'layout';
         $this->defaults = array(
             'clone' => '',
@@ -40,7 +40,7 @@ class FieldComponent extends acf_field {
         acf_enable_filter('clone');
 
         // ajax
-        add_action('wp_ajax_acf/fields/component/query', array($this, 'ajax_query'));
+        add_action('wp_ajax_acf/fields/layout_part/query', array($this, 'ajax_query'));
 
         // filters
         add_filter('acf/prepare_field', array($this, 'acf_prepare_field'), 10, 1);
@@ -231,7 +231,7 @@ class FieldComponent extends acf_field {
     function acf_clone_field($field, $clone_field) {
 
         // bail early if this field is being cloned by some other kind of field (future proof)
-        if ($clone_field['type'] != 'component') {
+        if ($clone_field['type'] != 'layout_part') {
             return $field;
         }
 
@@ -780,8 +780,8 @@ class FieldComponent extends acf_field {
         acf_render_field_setting(
             $field,
             array(
-                'label' => __('Components', 'acf'),
-                'instructions' => __('Select one or more components you wish to clone', 'acf'),
+                'label' => __('Layout Parts', 'acf'),
+                'instructions' => __('Select the layout part you wish to clone', 'acf'),
                 'type' => 'select',
                 'name' => 'clone',
                 'multiple' => 1,
@@ -789,7 +789,7 @@ class FieldComponent extends acf_field {
                 'choices' => $this->get_clone_setting_choices($field['clone']),
                 'ui' => 1,
                 'ajax' => 1,
-                'ajax_action' => 'acf/fields/component/query',
+                'ajax_action' => 'acf/fields/layout_part/query',
                 'placeholder' => '',
             )
         );
@@ -801,7 +801,7 @@ class FieldComponent extends acf_field {
             $field,
             array(
                 'label' => __('Display', 'acf'),
-                'instructions' => __('Specify the style used to render the component field', 'acf'),
+                'instructions' => __('Specify the style used to render the layout part field', 'acf'),
                 'type' => 'acfe_hidden',
                 'name' => 'display',
                 'class' => 'setting-display',
@@ -1003,11 +1003,11 @@ class FieldComponent extends acf_field {
 
         // bail early if no field group
         if (!$field_group) {
-            return __('Unknown component', 'acf');
+            return __('Unknown layout part', 'acf');
         }
 
         // return
-        return sprintf(__('%s component', 'acf'), $field_group['title']);
+        return sprintf(__('%s (whole)', 'acf'), $field_group['title']);
 
     }
 
@@ -1064,7 +1064,7 @@ class FieldComponent extends acf_field {
         }
 
         // load groups
-        $field_groups = dot_get_components();
+        $field_groups = dot_get_layout_parts();
         $field_group = false;
 
         // bail early if no field groups

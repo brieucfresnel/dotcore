@@ -1,16 +1,38 @@
 <?php
 
-function the_component(string $type, string $selector) {
+function the_layout_part(string $type, string $selector) {
     $available = false;
-    $available_components = dot_get_components();
+    $available_parts = dot_get_layout_parts();
 
-    foreach($available_components as $component) {
-        if($component['dot_component_slug'] === $type) {
+    foreach($available_parts as $layout_part) {
+        if($layout_part['dot_layout_part_slug'] === $type) {
             $available = true;
         }
     }
 
-    get_template_part('templates/components/' . $type . '/' . $type, null, get_sub_field($selector));
+    get_template_part('templates/layout-parts/' . $type . '/' . $type, null, get_sub_field($selector));
+}
+
+/**
+ * @return Array
+ */
+function dot_get_layout_parts() : array {
+    return acf_get_instance('\DOT\Core\LayoutParts')->get_layout_parts();
+}
+
+/**
+ * @param $field_group
+ * @return mixed
+ */
+function dot_is_layout_part($field_group) {
+    return acf_get_instance('\DOT\Core\LayoutParts')->is_layout_part($field_group);
+}
+
+/**
+ * @return mixed
+ */
+function dot_is_layout_part_screen() {
+    return acf_get_instance('\DOT\Core\LayoutParts')->is_layout_part_screen();
 }
 
 /**
@@ -30,13 +52,6 @@ function the_dot_layouts() {
 }
 
 /**
- * @return Array
- */
-function dot_get_components() : array {
-    return acf_get_instance('\DOT\Core\Components')->get_components();
-}
-
-/**
  * @param $field_group
  * @return mixed
  */
@@ -51,20 +66,6 @@ function dot_is_layout_screen() {
     return acf_get_instance('\DOT\Core\Layouts')->is_layout_screen();
 }
 
-/**
- * @param $field_group
- * @return mixed
- */
-function dot_is_component($field_group) {
-    return acf_get_instance('\DOT\Core\Components')->is_component($field_group);
-}
-
-/**
- * @return mixed
- */
-function dot_is_component_screen() {
-    return acf_get_instance('\DOT\Core\Components')->is_component_screen();
-}
 
 /**
  * Récupérer l'URL du custom logo avec un fallback s'il n'est pas défini

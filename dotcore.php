@@ -67,7 +67,7 @@ if (!class_exists('DOT_Core')) {
             acf_get_instance('\DOT\Core\MainFlexible');
             acf_get_instance('\DOT\Core\LayoutSettings');
             acf_get_instance('\DOT\Core\Layouts');
-            acf_get_instance('\DOT\Core\Components');
+            acf_get_instance('\DOT\Core\LayoutParts');
 
             // Admin
             acf_get_instance('\DOT\Core\Admin\Admin');
@@ -76,11 +76,11 @@ if (!class_exists('DOT_Core')) {
             acf_get_instance('\DOT\Core\Admin\LayoutsList');
             acf_get_instance('\DOT\Core\Admin\LayoutsSingle');
 
-            acf_get_instance('\DOT\Core\Admin\ComponentsList');
-            acf_get_instance('\DOT\Core\Admin\ComponentsSingle');
+            acf_get_instance('\DOT\Core\Admin\LayoutPartsList');
+            acf_get_instance('\DOT\Core\Admin\LayoutPartsSingle');
 
             // Fields
-            acf_register_field_type('DOT\Core\Fields\FieldComponent');
+            acf_register_field_type('DOT\Core\Fields\FieldLayoutPart');
         }
 
         public function init() {
