@@ -24,100 +24,96 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 
-if (!class_exists('DOT_Core')) {
-    class DOT_Core {
-        public string $version = '0.0.1';
+class DOT_Core {
+    public string $version = '0.0.1';
 
-        private bool $acf = false;
+    private bool $acf = false;
 
-        public function __construct() {
-            define('DOT_VERSION', $this->version);
-            define('DOT_FILE', __FILE__);
-            define('DOT_CORE_PATH', plugin_dir_path(__FILE__));
-            define('DOT_BASENAME', plugin_basename(__FILE__));
-            define('DOT_THEME_PATH', get_stylesheet_directory_uri());
-            define('DOT_THEME_INCLUDES_PATH', get_template_directory() . '/includes/');
-            define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/dotstarter/layouts/');
-            define('DOT_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/dotstarter/layouts/');
-            define('DOT_THEME_COMPONENTS_PATH', get_stylesheet_directory() . '/dotstarter/components/');
-            define('DOT_THEME_COMPONENTS_URL', get_stylesheet_directory_uri() . '/dotstarter/components/');
-            define('DOT_THEME_ASSETS_PATH', get_stylesheet_directory() . '/assets/');
-            define('DOT_THEME_ASSETS_URL', get_stylesheet_directory_uri() . '/assets/');
-            define('DOT_THEME_STYLE_FILENAME', 'styles');
-            define('DOT_THEME_STYLE_ADMIN_FILENAME', 'styles-admin');
+    public function __construct() {
+        define('DOT_VERSION', $this->version);
+        define('DOT_FILE', __FILE__);
+        define('DOT_CORE_PATH', plugin_dir_path(__FILE__));
+        define('DOT_BASENAME', plugin_basename(__FILE__));
+        define('DOT_THEME_PATH', get_stylesheet_directory_uri());
+        define('DOT_THEME_INCLUDES_PATH', get_template_directory() . '/includes/');
+        define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/dotstarter/layouts/');
+        define('DOT_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/dotstarter/layouts/');
+        define('DOT_THEME_COMPONENTS_PATH', get_stylesheet_directory() . '/dotstarter/components/');
+        define('DOT_THEME_COMPONENTS_URL', get_stylesheet_directory_uri() . '/dotstarter/components/');
+        define('DOT_THEME_ASSETS_PATH', get_stylesheet_directory() . '/assets/');
+        define('DOT_THEME_ASSETS_URL', get_stylesheet_directory_uri() . '/assets/');
+        define('DOT_THEME_STYLE_FILENAME', 'styles');
+        define('DOT_THEME_STYLE_ADMIN_FILENAME', 'styles-admin');
 
-            include_once(DOT_CORE_PATH . 'init.php');
+        include_once(DOT_CORE_PATH . 'init.php');
 
-            if (!$this->has_acf()) {
-                return;
-            }
-
-            $this->init();
-
-            add_action('acf/init', array($this, 'load'));
+        if (!$this->has_acf()) {
+            return;
         }
 
-        public function load() {
-            require_once(DOT_CORE_PATH . 'helpers.php');
+        $this->init();
 
-            // Core
-            acf_get_instance('\DOT\Core\PostTypes');
+        add_action('acf/init', array($this, 'load'));
+    }
 
-            // Core
-            acf_get_instance('\DOT\Core\MainFlexible');
-            acf_get_instance('\DOT\Core\LayoutSettings');
-            acf_get_instance('\DOT\Core\Layouts');
-            acf_get_instance('\DOT\Core\LayoutParts');
-            acf_get_instance('\DOT\Core\Components');
+    public function load() {
+        require_once(DOT_CORE_PATH . 'includes/helpers.php');
 
-            // Admin
-            acf_get_instance('\DOT\Core\Admin\Admin');
-            acf_get_instance('\DOT\Core\Admin\Menus');
+        // Core
+        acf_get_instance('\DOT\Core\MainFlexible');
+        acf_get_instance('\DOT\Core\LayoutSettings');
+        acf_get_instance('\DOT\Core\Layouts');
+        acf_get_instance('\DOT\Core\LayoutParts');
+        acf_get_instance('\DOT\Core\Components');
 
-            acf_get_instance('\DOT\Core\Admin\LayoutsList');
-            acf_get_instance('\DOT\Core\Admin\LayoutsSingle');
+        // Admin
+        acf_get_instance('\DOT\Core\Admin\Admin');
+        acf_get_instance('\DOT\Core\Admin\Menus');
 
-            acf_get_instance('\DOT\Core\Admin\LayoutPartsList');
-            acf_get_instance('\DOT\Core\Admin\LayoutPartsSingle');
+        acf_get_instance('\DOT\Core\Admin\LayoutsList');
+        acf_get_instance('\DOT\Core\Admin\LayoutsSingle');
 
-            acf_get_instance('\DOT\Core\Admin\ComponentsSingle');
+        acf_get_instance('\DOT\Core\Admin\LayoutPartsList');
+        acf_get_instance('\DOT\Core\Admin\LayoutPartsSingle');
 
-            // Fields
-            acf_register_field_type('DOT\Core\Fields\FieldLayoutPart');
-            acf_register_field_type('DOT\Core\Fields\FieldComponent');
-        }
+        acf_get_instance('\DOT\Core\Admin\ComponentsSingle');
 
-        public function init() {
+        // Fields
+        acf_register_field_type('DOT\Core\Fields\FieldLayoutPart');
+        acf_register_field_type('DOT\Core\Fields\FieldComponent');
+    }
+
+    public function init() {
 //            add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
 //            add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
-            add_filter('script_loader_tag', array($this, 'set_scripts_type_module_attribute'), 10, 3);
-            add_action('wp_head', array($this, 'setup_GTM'));
-        }
+        add_filter('script_loader_tag', array($this, 'set_scripts_type_module_attribute'), 10, 3);
+        add_action('wp_head', array($this, 'setup_GTM'));
+    }
 
-        public function enqueue_styles() {
-        }
+    public function enqueue_styles() {
+    }
 
-        public function enqueue_scripts() {
-        }
+    public function enqueue_scripts() {
+    }
 
-        public function set_scripts_type_module_attribute($tag, $handle, $src) {
-            // if not your script, do nothing and return original $tag
-            if ('dotstarter-frontend' !== $handle) {
-                return $tag;
-            }
-            // change the script tag by adding type="module" and return it.
-            $tag = '<script type="module" src="' . esc_url($src) . '"></script>';
-
+    public function set_scripts_type_module_attribute($tag, $handle, $src) {
+        // if not your script, do nothing and return original $tag
+        if ('dotstarter-frontend' !== $handle) {
             return $tag;
         }
+        // change the script tag by adding type="module" and return it.
+        $tag = '<script type="module" src="' . esc_url($src) . '"></script>';
 
-        public function setup_GTM() {
-            $GTM_ID = get_field('google_tag_manager_id', 'option');
+        return $tag;
+    }
 
-            // Check for GTM ID validity then launch GTM
-            if (!preg_match('/^GTM-[A-Z0-9]{1,7}$/', $GTM_ID)) return;
+    public function setup_GTM() {
+        $GTM_ID = get_field('google_tag_manager_id', 'option');
 
-            $script = `
+        // Check for GTM ID validity then launch GTM
+        if (!preg_match('/^GTM-[A-Z0-9]{1,7}$/', $GTM_ID)) return;
+
+        $script = `
                 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -125,40 +121,39 @@ if (!class_exists('DOT_Core')) {
                 })(window,document,'script','dataLayer',` . $GTM_ID . `);</script>
                 `;
 
-            echo $script;
-        }
+        echo $script;
+    }
 
-        /**
-         * Define constants
-         *
-         * @param      $name
-         * @param bool $value
-         */
-        public function define($name, $value = true) {
-            if (!defined($name)) {
-                define($name, $value);
-            }
-        }
-
-        /**
-         * Check if ACF Pro is activated
-         *
-         * @return bool
-         */
-        public function has_acf() {
-
-            // If ACF already available, return
-            if ($this->acf) {
-                return true;
-            }
-
-            // Check if ACF Pro is activated
-            $this->acf = class_exists('ACF') && defined('ACF_PRO') && defined('ACF_VERSION') && version_compare(ACF_VERSION, '5.8', '>=') && class_exists('ACFE');
-
-            return $this->acf;
-
+    /**
+     * Define constants
+     *
+     * @param      $name
+     * @param bool $value
+     */
+    public function define($name, $value = true) {
+        if (!defined($name)) {
+            define($name, $value);
         }
     }
 
-    acf_get_instance('\DOT\Core\DOT_Core');
+    /**
+     * Check if ACF Pro is activated
+     *
+     * @return bool
+     */
+    public function has_acf() {
+
+        // If ACF already available, return
+        if ($this->acf) {
+            return true;
+        }
+
+        // Check if ACF Pro is activated
+        $this->acf = class_exists('ACF') && defined('ACF_PRO') && defined('ACF_VERSION') && version_compare(ACF_VERSION, '5.8', '>=') && class_exists('ACFE');
+
+        return $this->acf;
+
+    }
 }
+
+acf_get_instance('\DOT\Core\DOT_Core');

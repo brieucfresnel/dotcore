@@ -3,6 +3,7 @@
 namespace DOT\Core;
 
 class LayoutParts {
+
     /**
      * Get the registered layout parts
      *
@@ -24,6 +25,8 @@ class LayoutParts {
     }
 
     /**
+     * Check whether a field group is a layout part
+     *
      * @param $field_group
      * @return mixed|null
      */
@@ -38,6 +41,8 @@ class LayoutParts {
     }
 
     /**
+     * Check whether current screen is a layout part admin screen
+     *
      * @return bool
      */
     public function is_layout_part_screen(): bool {

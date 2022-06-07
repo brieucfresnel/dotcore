@@ -9,23 +9,39 @@ if (!class_exists('LayoutSettings')) {
          */
         public static string $group_key = 'group_layout_settings';
 
-        private array $field;
+        /**
+         * @var bool
+         */
         private bool $is_preview;
 
+        /**
+         * @var array
+         */
         private array $settings;
-        private array $layout;
+
+        /**
+         * @var int
+         */
         private int $layout_index;
+
 
         public function __construct() {
             $this->layout_index = 1;
 
             add_action('acfe/init', array($this, 'create_field_group'));
-            add_action("acfe/flexible/render/before_template/name=" . MainFlexible::$group_name,
-                array($this, 'before_template'), 10, 3
+            add_action(
+                "acfe/flexible/render/before_template/name=" . MainFlexible::$group_name,
+                array($this, 'before_template'),
+                10, 3
             );
             add_action('acfe/flexible/render/after_template', array($this, 'after_template'), 10, 3);
         }
 
+
+        /**
+         * Create field groups for layout settings
+         * @return void
+         */
         public function create_field_group() {
             acf_add_local_field_group(array(
                 'key' => self::$group_key,
@@ -155,12 +171,19 @@ if (!class_exists('LayoutSettings')) {
             ));
         }
 
+
+        /**
+         * Echo layout header and container before if needed
+         *
+         * @param $field
+         * @param $layout
+         * @param $is_preview
+         * @return void
+         */
         public function before_template($field, $layout, $is_preview) {
             if (!acf_maybe_get($layout, 'dot_is_layout'))
                 return;
 
-            $this->field = $field;
-            $this->layout = $layout;
             $this->is_preview = $is_preview;
 
             // TODO : Find a more elegant way to get settings
@@ -176,9 +199,11 @@ if (!class_exists('LayoutSettings')) {
         }
 
         /**
+         * Get layout header template
+         *
          * @return string
          */
-        public function get_header(): string {
+        private function get_header(): string {
             $classes = array('layout');
             $classes[] = 'f-' . str_replace('_', '-', get_row_layout());
             if ($this->is_preview) {
@@ -197,35 +222,34 @@ if (!class_exists('LayoutSettings')) {
             $id = !empty($this->settings['anchor_id']) ? sanitize_title_with_dashes($this->settings['anchor_id']) : 'layout-' . $this->layout_index;
 
             $header_html = '<section class="' . join(' ', $classes) . '"' . $bg_image;
+
             if (!empty($id))
                 $header_html .= ' id="' . $id . '"';
 
             $header_html .= '>';
-            // Header
-            if (!empty($this->settings['title'])) {
-                $header_html .= '<header class="layout__header"><div class="container">';
-                $header_html .= '<h2 class="layout__title">' . esc_html($this->settings['title']) . '</h2>';
-                $header_html .= '</div></header>';
-            }
 
             $this->layout_index++;
             return $header_html;
         }
 
         /**
+         * Get layout footer template
+         *
          * @return string
          */
-        public function get_footer() {
+        private function get_footer() {
             return '</div></section>';
         }
 
         /**
+         * Get layout container template
+         *
          * @return string
          */
-        public function get_container() {
-            return $this->settings['contained'] === true
-                ? '<div class="container">'
-                : '<div class="fluid-container">';
+        private function get_container() {
+            return $this->settings['contained'] === true ?
+                '<div class="container">' :
+                '<div class="fluid-container">';
         }
     }
 }

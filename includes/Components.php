@@ -18,7 +18,6 @@ class Components {
         // ACF hooks
         add_filter('acf/location/rule_values/post_type', array($this, 'remove_component_from_post_types'));
         add_filter('acf/location/rule_values/post', array($this, 'remove_component_from_posts'));
-//        add_filter( 'acf/get_post_types', array( $this, 'remove_component_from_acf_post_types' ), 10, 2 );
 
         // ACF hooks - Component location rule
         add_filter('acf/location/rule_types', array($this, 'location_types'));
@@ -27,7 +26,7 @@ class Components {
     }
 
     /**
-     * get available components
+     * Get available components
      *
      * @return array
      */
@@ -39,7 +38,7 @@ class Components {
     }
 
     /**
-     * render component template
+     * Render component template
      *
      * @param $component_id
      * @return void
@@ -66,6 +65,8 @@ class Components {
 
 
     /**
+     * Enqueue component styles and scripts
+     *
      * @param $name
      * @return void
      */
@@ -147,6 +148,8 @@ class Components {
     }
 
     /**
+     * Render component template
+     *
      * @param \WP_Post $component
      * @return void
      */
@@ -220,26 +223,6 @@ class Components {
         unset($choices[$post_type->singular_name]);
 
         return $choices;
-    }
-
-    /**
-     * Remove Components from acf_get_post_types()
-     *
-     * @param $post_types
-     * @param $args
-     *
-     * @return mixed
-     */
-    public function remove_component_from_acf_post_types($post_types, $args) {
-
-        $key = array_search(self::$post_type, $post_types, true);
-
-        // If component key found, unset it
-        if ($key) {
-            unset($post_types[$key]);
-        }
-
-        return $post_types;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace DOT\Core;
 
 class Layouts {
+
     /**
      * Get the registered flexible layouts
      *
@@ -24,6 +25,8 @@ class Layouts {
     }
 
     /**
+     * Check whether a field group is a flexible layout
+     *
      * @param $field_group
      * @return mixed|null
      */
@@ -38,6 +41,8 @@ class Layouts {
     }
 
     /**
+     * Check whether current screen is a layout admin screen
+     *
      * @return bool
      */
     public function is_layout_screen(): bool {

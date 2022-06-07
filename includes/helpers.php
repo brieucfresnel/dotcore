@@ -48,7 +48,6 @@ function the_layout_part(string $type, string $selector) {
     $available_parts = dot_get_layout_parts();
 
     foreach ($available_parts as $layout_part) {
-        var_dump($layout_part['dot_layout_part_slug']);
         if ($layout_part['dot_layout_part_slug'] === $type) {
             $available = true;
         }
