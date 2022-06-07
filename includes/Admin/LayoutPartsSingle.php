@@ -56,7 +56,7 @@ class LayoutPartsSingle {
 
         // Get field group
         $field_group = $meta_box['args']['field_group'];
-        $layout_part_slug = acf_maybe_get($field_group, 'dot_layout_part_slug') ? acf_slugify($field_group['dot_layout_part_slug']) : '';
+        $layout_part_slug = acf_maybe_get($field_group, 'dot_layout_part_slug') ? acf_slugify($field_group['dot_layout_part_slug']) : acf_slugify(get_the_title());
 
         // Slug
         acf_render_field_wrap(
@@ -95,15 +95,18 @@ class LayoutPartsSingle {
      * @return void
      */
     public function validate_layout_part($layout_part) {
-        $slug = acf_maybe_get($layout_part, 'dot_layout_part_slug');
-
-        if(!empty($slug))
-            return $layout_part;
-
-        $slug = sanitize_title($layout_part['title']);
-
-        $layout_part['dot_layout_part_slug'] = $slug;
-
+//        $slug = acf_maybe_get($layout_part, 'dot_layout_part_slug');
+//
+////        if(!empty($slug))
+////            return $layout_part;
+//
+//        $slug = acf_slugify($layout_part['title']);
+//        $post_status = get_post_status();
+//
+//
+//        if($post_status !== 'auto-draft')
+//            $layout_part['dot_layout_part_slug'] = $slug;
+//
         return $layout_part;
     }
 }
