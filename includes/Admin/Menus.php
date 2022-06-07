@@ -18,7 +18,7 @@ class Menus {
             "menu_slug" => $main_page_slug,
             "callback" => array($this, 'dashboard'),
             "icon" => DOT_THEME_ASSETS_URL . '/icons/logo-dot.svg',
-            "position" => '82'
+            "position" => '80'
         );
 
         add_menu_page(
