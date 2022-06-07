@@ -18,9 +18,6 @@ class LayoutPartsSingle {
 
         // New
         add_action('load-post-new.php', array($this, 'load_new'));
-
-        // Validate before save
-        add_filter('acf/validate_field_group', array($this, 'validate_layout_part'), 10, 1);
     }
 
     public function load_single() {
@@ -84,29 +81,5 @@ class LayoutPartsSingle {
                 'required' => false,
             )
         );
-    }
-
-    /**
-     * validate_layout part
-     *
-     * validate layout part slug and generate it if needed
-     *
-     * @param $field_group
-     * @return void
-     */
-    public function validate_layout_part($layout_part) {
-//        $slug = acf_maybe_get($layout_part, 'dot_layout_part_slug');
-//
-////        if(!empty($slug))
-////            return $layout_part;
-//
-//        $slug = acf_slugify($layout_part['title']);
-//        $post_status = get_post_status();
-//
-//
-//        if($post_status !== 'auto-draft')
-//            $layout_part['dot_layout_part_slug'] = $slug;
-//
-        return $layout_part;
     }
 }
