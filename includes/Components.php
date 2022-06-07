@@ -2,64 +2,72 @@
 
 namespace DOT\Core;
 
-class Elements {
+class Components {
 
     /**
      * Post type slug
      *
      * @var string
      */
-    public static string $post_type = 'dot-element';
+    public static string $post_type = 'dot-component';
 
     public function __construct() {
         // WP hooks
-        add_action( 'init', array( $this, 'register_element' ) );
+        add_action( 'init', array( $this, 'register_component' ) );
 
         // ACF hooks
-        add_filter( 'acf/location/rule_values/post_type', array( $this, 'remove_element_from_post_types' ) );
-        add_filter( 'acf/location/rule_values/post', array( $this, 'remove_element_from_posts' ) );
-        add_filter( 'acf/get_post_types', array( $this, 'remove_element_from_acf_post_types' ), 10, 2 );
+        add_filter( 'acf/location/rule_values/post_type', array( $this, 'remove_component_from_post_types' ) );
+        add_filter( 'acf/location/rule_values/post', array( $this, 'remove_component_from_posts' ) );
+//        add_filter( 'acf/get_post_types', array( $this, 'remove_component_from_acf_post_types' ), 10, 2 );
 
-        // ACF hooks - Element location rule
+        // ACF hooks - Component location rule
         add_filter( 'acf/location/rule_types', array( $this, 'location_types' ) );
         add_filter( 'acf/location/rule_match/' . self::$post_type, array( $this, 'location_match' ), 10, 3 );
         add_filter( 'acf/location/rule_values/' .self::$post_type, array( $this, 'location_values' ), 10, 2 );
     }
 
+    public function get_components() {
+        $query = new \WP_Query(array(
+            'post_type' => self::$post_type
+        ));
+        return $query->get_posts();
+    }
+
     /**
-     * Remove Element from post types list
+     * Remove Component from post types list
      *
      * @param $choices
      *
      * @return mixed
      */
-    public function remove_element_from_post_types( $choices ) {
+    public function remove_component_from_post_types( $choices ) {
 
+        // Remove component
         unset( $choices[ self::$post_type ] );
 
         return $choices;
     }
 
     /**
-     * Remove elements from posts list
+     * Remove Components from posts list
      *
      * @param $choices
      *
      * @return mixed
      */
-    public function remove_element_from_posts( $choices ) {
+    public function remove_component_from_posts( $choices ) {
 
         // Get post type labels
         $post_type = get_post_type_labels( get_post_type_object( self::$post_type ) );
 
-        // Remove elements
+        // Remove components
         unset( $choices[ $post_type->singular_name ] );
 
         return $choices;
     }
 
     /**
-     * Remove Elements from acf_get_post_types()
+     * Remove Components from acf_get_post_types()
      *
      * @param $post_types
      * @param $args
@@ -70,7 +78,7 @@ class Elements {
 
         $key = array_search( self::$post_type, $post_types, true );
 
-        // If element key found, unset it
+        // If component key found, unset it
         if ( $key ) {
             unset( $post_types[ $key ] );
         }
@@ -79,7 +87,7 @@ class Elements {
     }
 
     /**
-     * Add element rule
+     * Add component rule
      *
      * @param $choices
      *
@@ -90,14 +98,14 @@ class Elements {
         // Get post type labels
         $post_type = get_post_type_labels( get_post_type_object( self::$post_type ) );
 
-        // Add element option
+        // Add component option
         $choices["DOT"][ self::$post_type ] = $post_type->singular_name;
 
         return $choices;
     }
 
     /**
-     * element rule values
+     * Component rule values
      *
      * @param $values
      * @param $rule
@@ -131,7 +139,7 @@ class Elements {
     }
 
     /**
-     * element rule matches
+     * Component rule matches
      *
      * @param $result
      * @param $rule
@@ -181,30 +189,30 @@ class Elements {
 
     public function register_component() {
         $labels = array(
-            'name'                  => _x( 'Elements', 'Post type general name', 'dotcore' ),
-            'singular_name'         => _x( 'Element', 'Post type singular name', 'dotcore' ),
-            'menu_name'             => _x( 'Elements', 'Admin Menu text', 'dotcore' ),
-            'name_admin_bar'        => _x( 'Element', 'Add New on Toolbar', 'dotcore' ),
+            'name'                  => _x( 'Components', 'Post type general name', 'dotcore' ),
+            'singular_name'         => _x( 'Component', 'Post type singular name', 'dotcore' ),
+            'menu_name'             => _x( 'Components', 'Admin Menu text', 'dotcore' ),
+            'name_admin_bar'        => _x( 'Component', 'Add New on Toolbar', 'dotcore' ),
             'add_new'               => __( 'Add New', 'dotcore' ),
-            'add_new_item'          => __( 'Add New Element', 'dotcore' ),
-            'new_item'              => __( 'New Element', 'dotcore' ),
-            'edit_item'             => __( 'Edit Element', 'dotcore' ),
-            'view_item'             => __( 'View Element', 'dotcore' ),
-            'all_items'             => __( 'All Elements', 'dotcore' ),
-            'search_items'          => __( 'Search Elements', 'dotcore' ),
-            'parent_item_colon'     => __( 'Parent Elements:', 'dotcore' ),
-            'not_found'             => __( 'No elements found.', 'dotcore' ),
-            'not_found_in_trash'    => __( 'No elements found in Trash.', 'dotcore' ),
-            'featured_image'        => _x( 'Element Cover Image', 'Overrides the “Featured Image” phrase for this post type. Added in 4.3', 'dotcore' ),
+            'add_new_item'          => __( 'Add New Component', 'dotcore' ),
+            'new_item'              => __( 'New Component', 'dotcore' ),
+            'edit_item'             => __( 'Edit Component', 'dotcore' ),
+            'view_item'             => __( 'View Component', 'dotcore' ),
+            'all_items'             => __( 'All Components', 'dotcore' ),
+            'search_items'          => __( 'Search Components', 'dotcore' ),
+            'parent_item_colon'     => __( 'Parent Components:', 'dotcore' ),
+            'not_found'             => __( 'No components found.', 'dotcore' ),
+            'not_found_in_trash'    => __( 'No components found in Trash.', 'dotcore' ),
+            'featured_image'        => _x( 'Component Cover Image', 'Overrides the “Featured Image” phrase for this post type. Added in 4.3', 'dotcore' ),
             'set_featured_image'    => _x( 'Set cover image', 'Overrides the “Set featured image” phrase for this post type. Added in 4.3', 'dotcore' ),
             'remove_featured_image' => _x( 'Remove cover image', 'Overrides the “Remove featured image” phrase for this post type. Added in 4.3', 'dotcore' ),
             'use_featured_image'    => _x( 'Use as cover image', 'Overrides the “Use as featured image” phrase for this post type. Added in 4.3', 'dotcore' ),
-            'archives'              => _x( 'Element archives', 'The post type archive label used in nav menus. Default “Post Archives”. Added in 4.4', 'dotcore' ),
-            'insert_into_item'      => _x( 'Insert into Element', 'Overrides the “Insert into post”/”Insert into page” phrase (used when inserting media into a post). Added in 4.4', 'dotcore' ),
-            'uploaded_to_this_item' => _x( 'Uploaded to this Element', 'Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used when viewing media attached to a post). Added in 4.4', 'dotcore' ),
-            'filter_items_list'     => _x( 'Filter Elements list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4', 'dotcore' ),
-            'items_list_navigation' => _x( 'Elements list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4', 'dotcore' ),
-            'items_list'            => _x( 'Elements list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4', 'dotcore' ),
+            'archives'              => _x( 'Component archives', 'The post type archive label used in nav menus. Default “Post Archives”. Added in 4.4', 'dotcore' ),
+            'insert_into_item'      => _x( 'Insert into Component', 'Overrides the “Insert into post”/”Insert into page” phrase (used when inserting media into a post). Added in 4.4', 'dotcore' ),
+            'uploaded_to_this_item' => _x( 'Uploaded to this Component', 'Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used when viewing media attached to a post). Added in 4.4', 'dotcore' ),
+            'filter_items_list'     => _x( 'Filter Components list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4', 'dotcore' ),
+            'items_list_navigation' => _x( 'Components list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4', 'dotcore' ),
+            'items_list'            => _x( 'Components list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4', 'dotcore' ),
         );
 
         $args = array(

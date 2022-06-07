@@ -1,40 +1,5 @@
 <?php
 
-function the_layout_part(string $type, string $selector) {
-    $available = false;
-    $available_parts = dot_get_layout_parts();
-
-    foreach($available_parts as $layout_part) {
-        if($layout_part['dot_layout_part_slug'] === $type) {
-            $available = true;
-        }
-    }
-
-    get_template_part('templates/layout-parts/' . $type . '/' . $type, null, get_sub_field($selector));
-}
-
-/**
- * @return Array
- */
-function dot_get_layout_parts() : array {
-    return acf_get_instance('\DOT\Core\LayoutParts')->get_layout_parts();
-}
-
-/**
- * @param $field_group
- * @return mixed
- */
-function dot_is_layout_part($field_group) {
-    return acf_get_instance('\DOT\Core\LayoutParts')->is_layout_part($field_group);
-}
-
-/**
- * @return mixed
- */
-function dot_is_layout_part_screen() {
-    return acf_get_instance('\DOT\Core\LayoutParts')->is_layout_part_screen();
-}
-
 /**
  * @return Array
  */
@@ -64,6 +29,53 @@ function dot_is_layout($field_group) {
  */
 function dot_is_layout_screen() {
     return acf_get_instance('\DOT\Core\Layouts')->is_layout_screen();
+}
+
+function the_layout_part(string $type, string $selector) {
+    $available = false;
+    $available_parts = dot_get_layout_parts();
+
+    foreach($available_parts as $layout_part) {
+        if($layout_part['dot_layout_part_slug'] === $type) {
+            $available = true;
+        }
+    }
+
+    get_template_part('templates/layout-parts/' . $type . '/' . $type, null, get_sub_field($selector));
+}
+
+/**
+ * @return Array
+ */
+function dot_get_layout_parts() : array {
+    return acf_get_instance('\DOT\Core\LayoutParts')->get_layout_parts();
+}
+
+function dot_get_components() : array {
+    return acf_get_instance('\DOT\Core\Components')->get_components();
+}
+
+/**
+ * @param $field_group
+ * @return mixed
+ */
+function dot_is_layout_part($field_group) {
+    return acf_get_instance('\DOT\Core\LayoutParts')->is_layout_part($field_group);
+}
+
+/**
+ * @return mixed
+ */
+function dot_is_layout_part_screen() {
+    return acf_get_instance('\DOT\Core\LayoutParts')->is_layout_part_screen();
+}
+
+/**
+ * @return mixed
+ */
+function dot_is_component_screen() {
+    $screen = get_current_screen();
+    return is_admin() && $screen->post_type === \DOT\Core\Components::$post_type;
 }
 
 

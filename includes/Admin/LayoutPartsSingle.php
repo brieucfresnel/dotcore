@@ -34,10 +34,13 @@ class LayoutPartsSingle {
 
     public function metaboxes() {
 
+        // Remove Yoast metabox
+        remove_meta_box('wpseo_meta','post','normal');
+
         // Get current field group
         global $field_group;
 
-        // Meta box: Component settings
+        // Meta box: Layout Part settings
         add_meta_box(
             'dot_layout_part_settings',
             __('Layout Part Settings', 'dotcore'),
@@ -53,7 +56,7 @@ class LayoutPartsSingle {
 
         // Get field group
         $field_group = $meta_box['args']['field_group'];
-        $component_slug = acf_maybe_get($field_group, 'dot_layout_part_slug') ? sanitize_title($field_group['dot_layout_part_slug']) : '';
+        $layout_part_slug = acf_maybe_get($field_group, 'dot_layout_part_slug') ? sanitize_title($field_group['dot_layout_part_slug']) : '';
 
         // Slug
         acf_render_field_wrap(
@@ -63,35 +66,11 @@ class LayoutPartsSingle {
                 'prefix' => 'acf_field_group',
                 'type' => 'text',
                 'instructions' => '',
-                'value' => $component_slug,
+                'value' => $layout_part_slug,
                 'placeholder' => __('layout-part-slug', 'dotcore'),
                 'required' => false,
             )
         );
-
-        $field_group_choices = array();
-        $layout_parts = dot_get_layout_parts();
-        if(!empty($layout_parts)) {
-            foreach($layout_parts as $layout_part) {
-                $field_group_choices[$layout_part['key']] = $layout_part['name'];
-            }
-        }
-
-        // Field Group
-        acf_render_field_wrap(array(
-            'label'             => __('Select','acf'),
-            'instructions'      => __('Instructions','acf'),
-            'type'              => 'select',
-            'name'              => 'hwk_select',
-            'prefix'            => 'acf_field_group',
-            'value'             => (isset($group['hwk_select'])) ? $group['hwk_select'] : '',
-            'toggle'            => false,
-            'choices'           => $field_group_choices,
-            'allow_null'        => true, // true | false
-            'multiple'          => false, // true | false
-            'ui'                => true, // true | false
-            'ajax'              => false // true | false
-        ));
 
         // Is Layout Part (hidden, needs to be true for field group to be recognized as a layout part)
         acf_render_field_wrap(

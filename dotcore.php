@@ -37,10 +37,10 @@ if (!class_exists('DOT_Core')) {
             define('DOT_BASENAME', plugin_basename(__FILE__));
             define('DOT_THEME_PATH', get_stylesheet_directory_uri());
             define('DOT_THEME_INCLUDES_PATH', get_template_directory() . '/includes/');
-            define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/templates/layouts/');
-            define('DOT_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/templates/layouts/');
-            define('DOT_THEME_COMPONENTS_PATH', get_stylesheet_directory() . '/templates/components/');
-            define('DOT_THEME_COMPONENTS_URL', get_stylesheet_directory_uri() . '/templates/components/');
+            define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/dotstarter/layouts/');
+            define('DOT_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/dotstarter/layouts/');
+            define('DOT_THEME_COMPONENTS_PATH', get_stylesheet_directory() . '/dotstarter/components/');
+            define('DOT_THEME_COMPONENTS_URL', get_stylesheet_directory_uri() . '/dotstarter/components/');
             define('DOT_THEME_ASSETS_PATH', get_stylesheet_directory() . '/assets/');
             define('DOT_THEME_ASSETS_URL', get_stylesheet_directory_uri() . '/assets/');
             define('DOT_THEME_STYLE_FILENAME', 'styles');
@@ -63,11 +63,12 @@ if (!class_exists('DOT_Core')) {
             // Core
             acf_get_instance('\DOT\Core\PostTypes');
 
-            // ACF
+            // Core
             acf_get_instance('\DOT\Core\MainFlexible');
             acf_get_instance('\DOT\Core\LayoutSettings');
             acf_get_instance('\DOT\Core\Layouts');
             acf_get_instance('\DOT\Core\LayoutParts');
+            acf_get_instance('\DOT\Core\Components');
 
             // Admin
             acf_get_instance('\DOT\Core\Admin\Admin');
@@ -79,8 +80,11 @@ if (!class_exists('DOT_Core')) {
             acf_get_instance('\DOT\Core\Admin\LayoutPartsList');
             acf_get_instance('\DOT\Core\Admin\LayoutPartsSingle');
 
+            acf_get_instance('\DOT\Core\Admin\ComponentsSingle');
+
             // Fields
             acf_register_field_type('DOT\Core\Fields\FieldLayoutPart');
+            acf_register_field_type('DOT\Core\Fields\FieldComponent');
         }
 
         public function init() {

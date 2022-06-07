@@ -62,6 +62,9 @@ class LayoutsSingle {
 
     public function metaboxes() {
 
+        // Remove Yoast metabox
+        remove_meta_box('wpseo_meta','post','normal');
+
         // Get current field group
         global $field_group;
 

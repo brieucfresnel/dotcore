@@ -49,7 +49,7 @@ class Menus {
                 'page_title' => __('Components', 'dotcore'),
                 'menu_title' => __('Components', 'dotcore'),
                 'capability' => 'edit_posts',
-                'menu_slug' => 'edit.php?post_type=component',
+                'menu_slug' => 'edit.php?post_type=' . \DOT\Core\Components::$post_type,
                 'callback' => null,
                 'position' => 20,
             )
