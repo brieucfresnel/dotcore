@@ -56,7 +56,7 @@ class LayoutPartsSingle {
 
         // Get field group
         $field_group = $meta_box['args']['field_group'];
-        $layout_part_slug = acf_maybe_get($field_group, 'dot_layout_part_slug') ? sanitize_title($field_group['dot_layout_part_slug']) : '';
+        $layout_part_slug = acf_maybe_get($field_group, 'dot_layout_part_slug') ? acf_slugify($field_group['dot_layout_part_slug']) : '';
 
         // Slug
         acf_render_field_wrap(

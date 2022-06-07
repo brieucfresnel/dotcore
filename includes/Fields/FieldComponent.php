@@ -2,7 +2,6 @@
 
 namespace DOT\Core\Fields;
 
-
 use DOT\Core\Components;
 
 class FieldComponent extends \acf_field {
@@ -29,10 +28,11 @@ class FieldComponent extends \acf_field {
         $this->category = 'relational';
         $this->defaults = array(
             'post_type' => Components::$post_type,
-            'return_format' => 'object',
+            'return_format' => 'value',
             'allow_null' => 0,
             'multiple' => 0,
-            'ui' => 1,
+            'ui' => 0,
+            'ajax' => 0,
             'taxonomy' => array(),
         );
 
@@ -57,7 +57,6 @@ class FieldComponent extends \acf_field {
     */
 
     function ajax_query() {
-
         // validate
         if (!acf_verify_ajax()) {
             die();
@@ -125,23 +124,29 @@ class FieldComponent extends \acf_field {
 
         }
 
-        $args['post_type'] = Components::$post_type;
+        $args['post_type'] = array(Components::$post_type);
+
+        // filters
+        $args = apply_filters('acf/fields/component/query', $args, $field, $options['post_id']);
+        $args = apply_filters('acf/fields/component/query/name=' . $field['name'], $args, $field, $options['post_id']);
+        $args = apply_filters('acf/fields/component/query/key=' . $field['key'], $args, $field, $options['post_id']);
+
 
         // get posts grouped by post type
-        $components = dot_get_components($args);
+        $posts = acf_get_posts($args);
 
         // bail early if no posts
-        if (empty($components)) {
+        if (empty($posts)) {
             return false;
         }
 
         // loop
-        foreach ($components as $component) {
+        foreach ($posts as $post) {
 
             // data
             $data = array(
-                'text' => $component->title,
-                'id' => $component->ID
+                'id' => $post->ID,
+                'text' => $post->title,
             );
             // append to $results
             $results[] = $data;
@@ -249,8 +254,11 @@ class FieldComponent extends \acf_field {
 
         // Change Field into a select
         $field['type'] = 'select';
-        $field['ui'] = 1;
-        $field['ajax'] = 1;
+        $field['return_format'] = 'value';
+        $field['allow_null'] = 0;
+        $field['multiple'] = 0;
+        $field['ui'] = 0;
+        $field['ajax'] = 0;
         $field['choices'] = array();
 
         // load posts
@@ -347,13 +355,6 @@ class FieldComponent extends \acf_field {
             return false;
         }
 
-        // load posts if needed
-        if ($field['return_format'] == 'object') {
-
-            $value = $this->get_posts($value, $field);
-
-        }
-
         // return value
         return $value;
 
@@ -377,6 +378,7 @@ class FieldComponent extends \acf_field {
     */
 
     function update_value($value, $post_id, $field) {
+
 
         // Bail early if no value.
         if (empty($value)) {
@@ -418,11 +420,11 @@ class FieldComponent extends \acf_field {
         // get posts
         $posts = acf_get_posts(
             array(
-                'post_type' => DOT\Core\Components::$post_type,
+                'post_type' => \DOT\Core\Components::$post_type,
+                'post__in' => false,
             )
         );
 
-        dot_print_r($posts);
         // return
         return $posts;
 

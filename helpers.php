@@ -3,9 +3,10 @@
 /**
  * @return Array
  */
-function dot_get_layouts() : array {
+function dot_get_layouts(): array {
     return acf_get_instance('\DOT\Core\Layouts')->get_layouts();
 }
+
 
 /**
  * @return void
@@ -16,6 +17,7 @@ function the_dot_layouts() {
     endif;
 }
 
+
 /**
  * @param $field_group
  * @return mixed
@@ -24,6 +26,7 @@ function dot_is_layout($field_group) {
     return acf_get_instance('\DOT\Core\Layouts')->is_layout($field_group);
 }
 
+
 /**
  * @return mixed
  */
@@ -31,28 +34,65 @@ function dot_is_layout_screen() {
     return acf_get_instance('\DOT\Core\Layouts')->is_layout_screen();
 }
 
+
+/**
+ * @param string $type
+ * @param string $selector
+ * @return void
+ */
 function the_layout_part(string $type, string $selector) {
+    if(!get_sub_field($selector))
+        return;
+
     $available = false;
     $available_parts = dot_get_layout_parts();
 
-    foreach($available_parts as $layout_part) {
-        if($layout_part['dot_layout_part_slug'] === $type) {
+    foreach ($available_parts as $layout_part) {
+        var_dump($layout_part['dot_layout_part_slug']);
+        if ($layout_part['dot_layout_part_slug'] === $type) {
             $available = true;
         }
     }
 
-    get_template_part('templates/layout-parts/' . $type . '/' . $type, null, get_sub_field($selector));
+    if ($available)
+        get_template_part('dotstarter/layout-parts/' . $type . '/' . $type, null, get_sub_field($selector));
 }
+
 
 /**
  * @return Array
  */
-function dot_get_layout_parts() : array {
+function dot_get_layout_parts(): array {
     return acf_get_instance('\DOT\Core\LayoutParts')->get_layout_parts();
 }
 
-function dot_get_components() : array {
+
+/**
+ * @return array
+ */
+function dot_get_components(): array {
     return acf_get_instance('\DOT\Core\Components')->get_components();
+}
+
+
+/**
+ * @param int $id
+ * @return void
+ */
+function the_component(int $id): void {
+    acf_get_instance('\DOT\Core\Components')->the_component($id);
+}
+
+function dot_get_component_post_type() {
+
+}
+
+/**
+ * @return mixed
+ */
+function dot_is_component_screen() {
+    $screen = get_current_screen();
+    return is_admin() && $screen->post_type === \DOT\Core\Components::$post_type;
 }
 
 /**
@@ -63,6 +103,7 @@ function dot_is_layout_part($field_group) {
     return acf_get_instance('\DOT\Core\LayoutParts')->is_layout_part($field_group);
 }
 
+
 /**
  * @return mixed
  */
@@ -70,12 +111,18 @@ function dot_is_layout_part_screen() {
     return acf_get_instance('\DOT\Core\LayoutParts')->is_layout_part_screen();
 }
 
+function dot_get_field_groups_by_location($param, $value, $operator) {
+
+}
+
 /**
- * @return mixed
+ * Get field group attached to a component
+ *
+ * @param int $component_id
+ * @return array|false
  */
-function dot_is_component_screen() {
-    $screen = get_current_screen();
-    return is_admin() && $screen->post_type === \DOT\Core\Components::$post_type;
+function get_component_field_group(int $component_id) {
+    return acf_get_instance('\DOT\Core\Components')->get_field_group($component_id);
 }
 
 
@@ -89,24 +136,38 @@ function dot_get_logo_url(): string {
     return $logo_url ? esc_url($logo_url) : get_template_directory_uri() . '/assets/img/logo.png';
 }
 
+/**
+ * print_r with <pre> tag before and after
+ *
+ * @param $array
+ * @return void
+ */
 function dot_print_r($array) {
     echo '<pre>';
     var_dump($array);
     echo '</pre>';
 }
 
-function dot_obfuscate_string($email, $encode = 1, $reverse = 0, $before = '<span class="email">', $after = '</span>') {
+/**
+ * @param $email
+ * @param $encode
+ * @param $reverse
+ * @param $before
+ * @param $after
+ * @return mixed|string
+ */
+function dot_obfuscate_string($string, $encode = 1, $reverse = 0, $before = '', $after = '') {
     $output = '';
     if ($reverse) {
-        $email = strrev($email);
+        $string = strrev($string);
         $output = $before;
     }
     if ($encode) {
-        for ($i = 0; $i < (strlen($email)); $i++) {
-            $output .= '&#' . ord($email[$i]) . ';';
+        for ($i = 0; $i < (strlen($string)); $i++) {
+            $output .= '&#' . ord($string[$i]) . ';';
         }
     } else {
-        $output .= $email;
+        $output .= $string;
     }
     if ($reverse) {
         $output .= $after;
