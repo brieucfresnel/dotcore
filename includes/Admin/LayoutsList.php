@@ -16,6 +16,9 @@ class LayoutsList {
 
         add_filter('admin_url', array($this, 'duplicate_layout_url'), 10, 3);
         add_action('load-edit.php', array($this, 'load_layouts_list'));
+
+        // ACFE hooks
+        add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'columns' ), 15 );
     }
 
     /**
@@ -66,5 +69,18 @@ class LayoutsList {
 
         // Return URL
         return $url;
+    }
+
+    /**
+     * Remove ACF Extended Field Group Category Column
+     *
+     * @param $columns
+     *
+     * @return mixed
+     */
+    public function columns( $columns ) {
+        unset( $columns['acf-field-group-category'] );
+
+        return $columns;
     }
 }

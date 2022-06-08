@@ -35,9 +35,8 @@ if (!class_exists('MainFlexible')) {
 
 
         public function __construct() {
-            add_action('acfe/init', array($this, 'load'));
+            add_action('init', array($this, 'load'), 10);
         }
-
 
         public function load() {
             $this->set_layouts();
@@ -68,7 +67,7 @@ if (!class_exists('MainFlexible')) {
 
                 $render_layout = $file_path . $name . '.php';
                 $render_script = $file_path . $name . '.js';
-                $render_style  = $file_path . $name . '.css';
+                $render_style = $file_path . $name . '.css';
 
                 if (!file_exists($render_style)) {
                     $render_style = null;
@@ -90,8 +89,21 @@ if (!class_exists('MainFlexible')) {
                         break;
                 }
 
-                // Store layout
+//                $categories = '';
+//                if(!empty($field_group['dot_categories'])) {
+//                    $categories = $field_group['dot_categories'];
+//                }
+//                dot_print_r($categories);
+                $categories_terms = get_the_terms($field_group['ID'], 'acf-field-group-category');
+                $acfe_categories = array();
 
+                if(is_array($categories_terms)) {
+                    foreach($categories_terms as $category) {
+                        $acfe_categories[] = $category->name;
+                    }
+                }
+
+                // Store layout
                 $layouts[] = array(
                     'key' => 'group_' . $layout_slug,
                     'dot_layout_slug' => $layout_slug,
@@ -129,6 +141,7 @@ if (!class_exists('MainFlexible')) {
                     'acfe_flexible_settings' => array(
                         0 => LayoutSettings::$group_key,
                     ),
+                    'acfe_flexible_category' => $acfe_categories
                 );
             }
 
@@ -182,6 +195,7 @@ if (!class_exists('MainFlexible')) {
          * @return void
          */
         private function create_flexible_field() {
+
             $config = array(
                 'key' => $this->field_key,
                 'label' => 'Layouts',
@@ -225,7 +239,7 @@ if (!class_exists('MainFlexible')) {
             acf_add_local_field($config);
         }
 
-        public function get_field_key() : string {
+        public function get_field_key(): string {
             return $this->field_key;
         }
     }
