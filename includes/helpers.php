@@ -41,20 +41,21 @@ function dot_is_layout_screen() {
  * @return void
  */
 function the_layout_part(string $type, string $selector) {
-    if(!get_sub_field($selector))
-        return;
-
-    $available = false;
-    $available_parts = dot_get_layout_parts();
-
-    foreach ($available_parts as $layout_part) {
-        if ($layout_part['dot_layout_part_slug'] === $type) {
-            $available = true;
-        }
-    }
-
-    if ($available)
-        get_template_part('dotstarter/layout-parts/' . $type . '/' . $type, null, get_sub_field($selector));
+    return acf_get_instance('\DOT\Core\LayoutParts')->the_layout_part($type, $selector);
+//    if(!get_sub_field($selector))
+//        return;
+//
+//    $available = false;
+//    $available_parts = dot_get_layout_parts();
+//
+//    foreach ($available_parts as $layout_part) {
+//        if ($layout_part['dot_layout_part_slug'] === $type) {
+//            $available = true;
+//        }
+//    }
+//
+//    if ($available)
+//        get_template_part('dotstarter/layout-parts/' . $type . '/' . $type, null, get_sub_field($selector));
 }
 
 
