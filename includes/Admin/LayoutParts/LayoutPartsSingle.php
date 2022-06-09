@@ -1,6 +1,6 @@
 <?php
 
-namespace DOT\Core\Admin;
+namespace DOT\Core\Admin\LayoutParts;
 
 class LayoutPartsSingle {
     public function __construct() {
@@ -21,7 +21,6 @@ class LayoutPartsSingle {
     }
 
     public function load_single() {
-//        add_filter('acf/validate_field_group', array($this, 'validate_single'), 20);
         add_action('acf/field_group/admin_head', array($this, 'metaboxes'));
     }
 

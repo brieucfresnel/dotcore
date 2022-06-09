@@ -29,17 +29,22 @@ if (!class_exists('LayoutSettings')) {
             $this->layout_index = 1;
 
             add_action('acfe/init', array($this, 'create_field_group'));
+
+            // Render header & container
             add_action(
                 "acfe/flexible/render/before_template/name=" . MainFlexible::$group_name,
                 array($this, 'before_template'),
                 10, 3
             );
+
+            // Render footer
             add_action('acfe/flexible/render/after_template', array($this, 'after_template'), 10, 3);
         }
 
 
         /**
          * Create field groups for layout settings
+         *
          * @return void
          */
         public function create_field_group() {
@@ -173,7 +178,7 @@ if (!class_exists('LayoutSettings')) {
 
 
         /**
-         * Echo layout header and container before if needed
+         * Echo layout header and append container if needed
          *
          * @param $field
          * @param $layout
@@ -204,21 +209,26 @@ if (!class_exists('LayoutSettings')) {
          * @return string
          */
         private function get_header(): string {
+
+            // Set default and custom CSS classes
             $classes = array('layout');
             $classes[] = 'f-' . str_replace('_', '-', get_row_layout());
             if ($this->is_preview) {
                 $classes[] = 'is-preview';
             }
 
+            // Set bg-{color} class
             if (array_key_exists('bg_color', $this->settings) && $this->settings['bg_color'] !== 'none') {
                 $classes[] = 'bg-' . $this->settings['bg_color'];
             }
 
+            // Set --bg-image css variable
             $bg_image = '';
             if (array_key_exists('bg_image', $this->settings) && is_array($this->settings['bg_image'])) {
                 $bg_image = 'style="--bg-image: url(\'' . $this->settings['bg_image']['url'] . '\');"';
             }
 
+            // Set CSS ID
             $id = !empty($this->settings['anchor_id']) ? sanitize_title_with_dashes($this->settings['anchor_id']) : 'layout-' . $this->layout_index;
 
             $header_html = '<section class="' . join(' ', $classes) . '"' . $bg_image;
@@ -226,9 +236,12 @@ if (!class_exists('LayoutSettings')) {
             if (!empty($id))
                 $header_html .= ' id="' . $id . '"';
 
+            // Close header
             $header_html .= '>';
 
+            // Increment layout index to generate generic IDs
             $this->layout_index++;
+
             return $header_html;
         }
 

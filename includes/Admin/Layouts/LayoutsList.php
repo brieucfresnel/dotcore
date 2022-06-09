@@ -1,6 +1,6 @@
 <?php
 
-namespace DOT\Core\Admin;
+namespace DOT\Core\Admin\Layouts;
 
 use WP_Query;
 

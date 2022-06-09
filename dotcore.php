@@ -70,13 +70,13 @@ class DOT_Core {
         acf_get_instance('\DOT\Core\Admin\Admin');
         acf_get_instance('\DOT\Core\Admin\Menus');
 
-        acf_get_instance('\DOT\Core\Admin\LayoutsList');
-        acf_get_instance('\DOT\Core\Admin\LayoutsSingle');
+        acf_get_instance('\DOT\Core\Admin\Layouts\LayoutsList');
+        acf_get_instance('\DOT\Core\Admin\Layouts\LayoutsSingle');
 
-        acf_get_instance('\DOT\Core\Admin\LayoutPartsList');
-        acf_get_instance('\DOT\Core\Admin\LayoutPartsSingle');
+        acf_get_instance('\DOT\Core\Admin\LayoutParts\LayoutPartsList');
+        acf_get_instance('\DOT\Core\Admin\LayoutParts\LayoutPartsSingle');
 
-        acf_get_instance('\DOT\Core\Admin\ComponentsSingle');
+        acf_get_instance('\DOT\Core\Admin\Components\ComponentsSingle');
 
         // Fields
         acf_register_field_type('DOT\Core\Fields\FieldLayoutPart');

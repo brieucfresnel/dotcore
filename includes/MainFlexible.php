@@ -45,6 +45,8 @@ if (!class_exists('MainFlexible')) {
         }
 
         /**
+         * Get layouts from field groups list
+         *
          * @return void
          */
         private function set_layouts() {
@@ -89,11 +91,7 @@ if (!class_exists('MainFlexible')) {
                         break;
                 }
 
-//                $categories = '';
-//                if(!empty($field_group['dot_categories'])) {
-//                    $categories = $field_group['dot_categories'];
-//                }
-//                dot_print_r($categories);
+                // Get categories for selection modal
                 $categories_terms = get_the_terms($field_group['ID'], 'acf-field-group-category');
                 $acfe_categories = array();
 
@@ -239,6 +237,10 @@ if (!class_exists('MainFlexible')) {
             acf_add_local_field($config);
         }
 
+        /**
+         * Get main flexible field key
+         * @return string
+         */
         public function get_field_key(): string {
             return $this->field_key;
         }

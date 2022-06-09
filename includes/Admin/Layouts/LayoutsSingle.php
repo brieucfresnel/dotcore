@@ -1,6 +1,6 @@
 <?php
 
-namespace DOT\Core\Admin;
+namespace DOT\Core\Admin\Layouts;
 
 
 class LayoutsSingle {
@@ -24,7 +24,9 @@ class LayoutsSingle {
         add_action('load-post-edit.php', array($this, 'load_edit'));
 
         // Validate before save
-        add_filter('acf/validate_field_group', array($this, 'validate_layout'), 10, 1);
+//        add_filter('acf/validate_field_group', array($this, 'validate_layout'), 10, 1);
+
+        add_action('acfe/prepare_field_group', array($this, 'prepare_field_group'));
     }
 
     public function load_single() {
@@ -32,28 +34,29 @@ class LayoutsSingle {
     }
 
     public function load_new() {
-
+        add_filter('acf/validate_field_group', array($this, 'validate_new'), 10, 1);
     }
 
     public function load_edit() {
     }
 
     /**
-     * validate layout metaboxes
+     * Set new layout locations
      *
-     * @param $field_group
+     * @param $layout
      * @return void
      */
-    public function validate_layout($layout) {
-//        $categories = acf_maybe_get($layout, 'dot_layout_categories');
-//
-//        $terms = [];
-//        foreach($categories as $category) {
-//            $term = get_term(acf_get_numeric($category));
-//            $terms[] = $term->name;
-//        }
-//
-//        $layout['dot_layout_categories'] = $terms;
+    public function validate_new($layout) {
+        $layout['location'] = array(
+            array(
+                array(
+                    'param'    => 'post_type',
+                    'operator' => '!=',
+                    'value'    => 'all',
+                ),
+            ),
+        );
+
         return $layout;
     }
 
@@ -61,9 +64,6 @@ class LayoutsSingle {
 
         // Remove Yoast metabox
         remove_meta_box('wpseo_meta', 'post', 'normal');
-
-        // Remove acf-field-group-category tax metabox
-//        remove_meta_box('acf-field-group-categorydiv', 'acf-field-group', 'side');
 
         // Get current field group
         global $field_group;
@@ -99,27 +99,6 @@ class LayoutsSingle {
                 'required' => false,
             )
         );
-
-//        $choices = [];
-//        $terms = get_terms(array('taxonomy' => 'acf-field-group-category'));
-//
-//        foreach($terms as $term) {
-//            $choices[$term->term_id] = $term->name;
-//        }
-//
-//        acf_render_field_wrap(array(
-//            'label' => __('Category', 'acf'),
-//            'type' => 'select',
-//            'name' => 'dot_layout_categories',
-//            'prefix' => 'acf_field_group',
-//            'value' => (isset($field_group['dot_layout_categories'])) ? $field_group['dot_layout_categories'] : '',
-//            'toggle' => false,
-//            'choices' => $choices,
-//            'allow_null' => true, // true | false
-//            'multiple' => true, // true | false
-//            'ui' => true, // true | false
-//            'ajax' => false // true | false
-//        ));
 
         acf_render_field_wrap(
             array(

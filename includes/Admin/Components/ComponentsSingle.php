@@ -1,6 +1,6 @@
 <?php
 
-namespace DOT\Core\Admin;
+namespace DOT\Core\Admin\Components;
 
 class ComponentsSingle {
 
