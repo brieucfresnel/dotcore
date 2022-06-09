@@ -74,8 +74,8 @@ class Components {
         global $is_preview;
         $handle = 'component-' . $name;
 
-        $style = DOT_THEME_COMPONENTS_URL . $name . '/' . $name . '.css';
-        $script = DOT_THEME_COMPONENTS_URL . $name . '/' . $name . '.js';
+        $style = DOT_THEME_COMPONENTS_URI . $name . '/' . $name . '.css';
+        $script = DOT_THEME_COMPONENTS_URI . $name . '/' . $name . '.js';
 
         // Check
         if (!empty($style)) {

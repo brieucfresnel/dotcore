@@ -5,12 +5,14 @@
  * Plugin Name:       DOT Core
  * Description:       Core plugin for DOT Studio websites
  * Version:           1.0.0
- * Author:            DOT Studio
+ * Requires at least: 5.2
+ * Requires PHP:      7.2
+ * Author:            Studio DOT
  * Author URI:        https://studio-dot.fr
- * License:           GPL-2.0
- * License URI:       https://opensource.org/licenses/GPL-2.0
- * Text Domain:       dotstarter
- * Domain Path:       languages
+ * License:           GPL v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       dotcore
+ * Domain Path:       /languages
  */
 
 namespace DOT\Core;
@@ -25,25 +27,36 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 
 class DOT_Core {
+    /**
+     * @var string
+     */
     public string $version = '0.0.1';
 
+    /**
+     * @var bool
+     */
     private bool $acf = false;
+
+    /**
+     * The DOT_Core single instance
+     * @var DOT_Core|null
+     */
+    private static ?DOT_Core $instance = null;
 
     public function __construct() {
         define('DOT_VERSION', $this->version);
         define('DOT_FILE', __FILE__);
         define('DOT_CORE_PATH', plugin_dir_path(__FILE__));
         define('DOT_BASENAME', plugin_basename(__FILE__));
-        define('DOT_THEME_PATH', get_stylesheet_directory_uri());
+        define('DOT_THEME_PATH', get_stylesheet_directory());
+        define('DOT_THEME_URI', get_stylesheet_directory_uri());
         define('DOT_THEME_INCLUDES_PATH', get_template_directory() . '/includes/');
         define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/dotstarter/layouts/');
-        define('DOT_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/dotstarter/layouts/');
+        define('DOT_THEME_LAYOUTS_URI', get_stylesheet_directory_uri() . '/dotstarter/layouts/');
         define('DOT_THEME_COMPONENTS_PATH', get_stylesheet_directory() . '/dotstarter/components/');
-        define('DOT_THEME_COMPONENTS_URL', get_stylesheet_directory_uri() . '/dotstarter/components/');
+        define('DOT_THEME_COMPONENTS_URI', get_stylesheet_directory_uri() . '/dotstarter/components/');
         define('DOT_THEME_ASSETS_PATH', get_stylesheet_directory() . '/assets/');
         define('DOT_THEME_ASSETS_URL', get_stylesheet_directory_uri() . '/assets/');
-        define('DOT_THEME_STYLE_FILENAME', 'styles');
-        define('DOT_THEME_STYLE_ADMIN_FILENAME', 'styles-admin');
 
         include_once(DOT_CORE_PATH . 'init.php');
 
@@ -54,6 +67,14 @@ class DOT_Core {
         $this->init();
 
         add_action('acf/init', array($this, 'load'));
+    }
+
+    public static function getInstance() {
+        if(self::$instance === null) {
+            self::$instance = new DOT_Core();
+        }
+
+        return self::$instance;
     }
 
     public function load() {
@@ -156,4 +177,4 @@ class DOT_Core {
     }
 }
 
-acf_get_instance('\DOT\Core\DOT_Core');
+DOT_Core::getInstance();
