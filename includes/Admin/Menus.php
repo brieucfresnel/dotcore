@@ -95,7 +95,7 @@ class Menus {
         ?>
         <div class="card">
             <h1> <?php _e('DotStarter', 'dotcore') ?></h1>
-            <p>Dashboard development is still ongoing. Please come back later.</p>
+            <p><?php _e('Dashboard development is still ongoing. Please come back later.', 'dotcore') ?></p>
         </div>
 
         <?php ob_end_flush();
