@@ -26,6 +26,8 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
          */
         public function display_navbar() {
             add_filter('acf/admin/toolbar', '__return_false');
+
+            include_once(DOT_CORE_PATH . '/templates/navbar.php');
         }
 
         /**
@@ -42,7 +44,11 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
 
                 acf_maybe_get_GET('layout_parts') === '1' ||
                 acf_maybe_get_GET('layout_part') === '1' ||
-                dot_is_layout_part(get_post(acf_maybe_get_GET('post')))
+                dot_is_layout_part(get_post(acf_maybe_get_GET('post'))) ||
+
+                acf_maybe_get_GET('post_type') === 'dot-component' ||
+                acf_maybe_get_GET('page') === 'dotstarter' ||
+                acf_maybe_get_GET('page') === 'theme-settings'
             ) {
                 $is_dot_admin = true;
             }

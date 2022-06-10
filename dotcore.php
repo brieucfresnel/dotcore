@@ -47,6 +47,7 @@ class DOT_Core {
         define('DOT_VERSION', $this->version);
         define('DOT_FILE', __FILE__);
         define('DOT_CORE_PATH', plugin_dir_path(__FILE__));
+        define('DOT_CORE_URL', plugin_dir_url(__FILE__));
         define('DOT_BASENAME', plugin_basename(__FILE__));
         define('DOT_THEME_PATH', get_stylesheet_directory());
         define('DOT_THEME_URI', get_stylesheet_directory_uri());
@@ -72,7 +73,7 @@ class DOT_Core {
     }
 
     public static function getInstance() {
-        if(self::$instance === null) {
+        if (self::$instance === null) {
             self::$instance = new DOT_Core();
         }
 
@@ -107,13 +108,14 @@ class DOT_Core {
     }
 
     public function init() {
-//            add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
-//            add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_styles'));
         add_filter('script_loader_tag', array($this, 'set_scripts_type_module_attribute'), 10, 3);
         add_action('wp_head', array($this, 'setup_GTM'));
     }
 
     public function enqueue_styles() {
+        wp_enqueue_style('dot-admin', DOT_CORE_URL . '/dist/css/admin.css', array(), false);
     }
 
     public function enqueue_scripts() {
