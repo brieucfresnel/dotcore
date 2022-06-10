@@ -31,6 +31,7 @@ class LayoutsSingle {
 
     public function load_single() {
         add_action('acf/field_group/admin_head', array($this, 'metaboxes'));
+        add_action('save_post', array($this, 'save_post'), 12, 3);
     }
 
     public function load_new() {
@@ -38,6 +39,43 @@ class LayoutsSingle {
     }
 
     public function load_edit() {
+    }
+
+    public function save_post($post_id, $post, $update) {
+        // Fire only once
+        if ( !$post->post_content ) {
+            return;
+        }
+
+        $field_group = acf_get_field_group( $post_id );
+
+        // Bail early if field group not found
+        if ( !$field_group ) {
+            return;
+        }
+
+        // Create layout files
+        $this->generate_directory_files( $field_group );
+    }
+
+    /**
+     * Create layout folder with corresponding files
+     *
+     * @param $field_group
+     */
+    public function generate_directory_files($field_group) {
+
+        $layout_slug = acf_slugify($field_group['title']);
+
+        // Create layout folder if doesn't exists
+        if (!file_exists(DOT_THEME_LAYOUTS_PATH . $layout_slug)) {
+            wp_mkdir_p(DOT_THEME_LAYOUTS_PATH . $layout_slug);
+        }
+
+        // Create template file if doesn't exists
+        if (!file_exists(DOT_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug . '.php')) {
+            touch(DOT_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug . '.php');
+        }
     }
 
     /**
@@ -50,9 +88,9 @@ class LayoutsSingle {
         $layout['location'] = array(
             array(
                 array(
-                    'param'    => 'post_type',
+                    'param' => 'post_type',
                     'operator' => '!=',
-                    'value'    => 'all',
+                    'value' => 'all',
                 ),
             ),
         );

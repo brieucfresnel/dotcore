@@ -25,6 +25,7 @@ class ComponentsSingle {
 
     public function load_single() {
         add_action('add_meta_boxes', array($this, 'metaboxes'));
+        add_action('save_post', array($this, 'save_post'), 12, 3);
     }
 
     public function add_edit_instructions($post) {
@@ -46,7 +47,7 @@ class ComponentsSingle {
         $card = '<div class="card">';
 
         if (!$field_group_id) {
-            $card .= __('Please target this component from a field group for it to be editable.', 'dotcore');
+            $card .= __('Please target this component from a field group for it to be editable. ', 'dotcore');
             $card .= '<a href="edit.php?post_type=acf-field-group">' . __('Go to field groups', 'dotcore') . '</a>';
         } else {
             $card .= '<a href="post.php?post=' . $field_group_id . '&action=edit">' . __('Edit component\'s field group', 'dotcore') . '</a>';
@@ -60,8 +61,33 @@ class ComponentsSingle {
         // Remove Yoast metabox
         remove_meta_box('wpseo_meta', get_current_screen(), 'normal');
     }
+    public function save_post($post_id, $post, $update) {
+        // Fire only once
+        if ( !$post->post_title || $post->post_status === 'auto-draft' ) {
+            return;
+        }
 
-    public function render_meta_box_main() {
+        // Create layout files
+        $this->generate_directory_files( $post );
+    }
 
+    /**
+     * Create layout folder with corresponding files
+     *
+     * @param $field_group
+     */
+    public function generate_directory_files($post) {
+
+        $slug = acf_slugify($post->post_title);
+
+        // Create layout folder if doesn't exists
+        if (!file_exists(DOT_THEME_COMPONENTS_PATH . $slug)) {
+            wp_mkdir_p(DOT_THEME_COMPONENTS_PATH . $slug);
+        }
+
+        // Create template file if doesn't exists
+        if (!file_exists(DOT_THEME_COMPONENTS_PATH . $slug . '/' . $slug . '.php')) {
+            touch(DOT_THEME_COMPONENTS_PATH . $slug . '/' . $slug . '.php');
+        }
     }
 }
