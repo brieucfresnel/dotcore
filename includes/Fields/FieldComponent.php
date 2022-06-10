@@ -255,7 +255,7 @@ class FieldComponent extends \acf_field {
         // get posts
         $posts = acf_get_posts(
             array(
-                'post_type' => \DOT\Core\Components::$post_type,
+                'post_type' => \DOT\Core\Main\Components::$post_type,
                 'post__in' => false,
             )
         );
