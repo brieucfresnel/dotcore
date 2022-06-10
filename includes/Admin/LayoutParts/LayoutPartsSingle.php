@@ -33,6 +33,9 @@ class LayoutPartsSingle {
         // Remove Yoast metabox
         remove_meta_box('wpseo_meta','post','normal');
 
+        // Remove field group categories metabox
+        remove_meta_box('acf-field-group-categorydiv', 'acf-field-group', 'side');
+
         // Get current field group
         global $field_group;
 
@@ -81,4 +84,5 @@ class LayoutPartsSingle {
             )
         );
     }
+
 }
