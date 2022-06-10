@@ -39,6 +39,7 @@ class DOT_Core {
 
     /**
      * The DOT_Core single instance
+     *
      * @var DOT_Core|null
      */
     private static ?DOT_Core $instance = null;
@@ -72,7 +73,7 @@ class DOT_Core {
         add_action('acf/init', array($this, 'load'));
     }
 
-    public static function getInstance() {
+    public static function getInstance(): ?DOT_Core {
         if (self::$instance === null) {
             self::$instance = new DOT_Core();
         }
@@ -133,20 +134,18 @@ class DOT_Core {
     }
 
     public function setup_GTM() {
-        $GTM_ID = get_field('google_tag_manager_id', 'option');
+        $GTM_ID = get_field('key_gtm', 'option');
 
         // Check for GTM ID validity then launch GTM
         if (!preg_match('/^GTM-[A-Z0-9]{1,7}$/', $GTM_ID)) return;
 
-        $script = `
-                <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        ?>
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer',` . $GTM_ID . `);</script>
-                `;
-
-        echo $script;
+            })(window,document,'script','dataLayer', <?= $GTM_ID ?>;</script>
+        <?php
     }
 
     /**
