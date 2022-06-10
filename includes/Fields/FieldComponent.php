@@ -2,7 +2,7 @@
 
 namespace DOT\Core\Fields;
 
-use DOT\Core\Components;
+use DOT\Core\Main\Components;
 
 class FieldComponent extends \acf_field {
 

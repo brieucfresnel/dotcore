@@ -82,12 +82,12 @@ class DOT_Core {
     public function load() {
         require_once(DOT_CORE_PATH . 'includes/helpers.php');
 
-        // Core
-        acf_get_instance('\DOT\Core\MainFlexible');
-        acf_get_instance('\DOT\Core\LayoutSettings');
-        acf_get_instance('\DOT\Core\Layouts');
-        acf_get_instance('\DOT\Core\LayoutParts');
-        acf_get_instance('\DOT\Core\Components');
+        // Main
+        acf_get_instance('\DOT\Core\Main\MainFlexible');
+        acf_get_instance('\DOT\Core\Main\LayoutSettings');
+        acf_get_instance('\DOT\Core\Main\Layouts');
+        acf_get_instance('\DOT\Core\Main\LayoutParts');
+        acf_get_instance('\DOT\Core\Main\Components');
 
         // Admin
         acf_get_instance('\DOT\Core\Admin\Admin');
@@ -101,7 +101,7 @@ class DOT_Core {
 
         acf_get_instance('\DOT\Core\Admin\Components\ComponentsSingle');
 
-        // Fields
+        // Register custom field types
         acf_register_field_type('DOT\Core\Fields\FieldLayoutPart');
         acf_register_field_type('DOT\Core\Fields\FieldComponent');
     }

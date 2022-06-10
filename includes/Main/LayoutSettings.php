@@ -1,6 +1,6 @@
 <?php
 
-namespace DOT\Core;
+namespace DOT\Core\Main;
 
 if (!class_exists('LayoutSettings')) {
     class LayoutSettings {

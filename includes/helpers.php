@@ -4,7 +4,7 @@
  * @return Array
  */
 function dot_get_layouts(): array {
-    return acf_get_instance('\DOT\Core\Layouts')->get_layouts();
+    return acf_get_instance('\DOT\Core\Main\Layouts')->get_layouts();
 }
 
 
@@ -12,8 +12,8 @@ function dot_get_layouts(): array {
  * @return void
  */
 function the_dot_layouts() {
-    if (has_flexible(acf_get_instance('\DOT\Core\MainFlexible')->get_field_key())):
-        the_flexible(acf_get_instance('\DOT\Core\MainFlexible')->get_field_key());
+    if (has_flexible(acf_get_instance('\DOT\Core\Main\MainFlexible')->get_field_key())):
+        the_flexible(acf_get_instance('\DOT\Core\Main\MainFlexible')->get_field_key());
     endif;
 }
 
@@ -23,7 +23,7 @@ function the_dot_layouts() {
  * @return mixed
  */
 function dot_is_layout($field_group) {
-    return acf_get_instance('\DOT\Core\Layouts')->is_layout($field_group);
+    return acf_get_instance('\DOT\Core\Main\Layouts')->is_layout($field_group);
 }
 
 
@@ -31,7 +31,7 @@ function dot_is_layout($field_group) {
  * @return mixed
  */
 function dot_is_layout_screen() {
-    return acf_get_instance('\DOT\Core\Layouts')->is_layout_screen();
+    return acf_get_instance('\DOT\Core\Main\Layouts')->is_layout_screen();
 }
 
 
@@ -41,21 +41,7 @@ function dot_is_layout_screen() {
  * @return void
  */
 function the_layout_part(string $type, string $selector) {
-    return acf_get_instance('\DOT\Core\LayoutParts')->the_layout_part($type, $selector);
-//    if(!get_sub_field($selector))
-//        return;
-//
-//    $available = false;
-//    $available_parts = dot_get_layout_parts();
-//
-//    foreach ($available_parts as $layout_part) {
-//        if ($layout_part['dot_layout_part_slug'] === $type) {
-//            $available = true;
-//        }
-//    }
-//
-//    if ($available)
-//        get_template_part('dotstarter/layout-parts/' . $type . '/' . $type, null, get_sub_field($selector));
+    return acf_get_instance('\DOT\Core\Main\LayoutParts')->the_layout_part($type, $selector);
 }
 
 
@@ -63,7 +49,7 @@ function the_layout_part(string $type, string $selector) {
  * @return Array
  */
 function dot_get_layout_parts(): array {
-    return acf_get_instance('\DOT\Core\LayoutParts')->get_layout_parts();
+    return acf_get_instance('\DOT\Core\Main\LayoutParts')->get_layout_parts();
 }
 
 
@@ -71,7 +57,7 @@ function dot_get_layout_parts(): array {
  * @return array
  */
 function dot_get_components(): array {
-    return acf_get_instance('\DOT\Core\Components')->get_components();
+    return acf_get_instance('\DOT\Core\Main\Components')->get_components();
 }
 
 
@@ -80,11 +66,7 @@ function dot_get_components(): array {
  * @return void
  */
 function the_component(int $id): void {
-    acf_get_instance('\DOT\Core\Components')->the_component($id);
-}
-
-function dot_get_component_post_type() {
-
+    acf_get_instance('\DOT\Core\Main\Components')->the_component($id);
 }
 
 /**
@@ -92,7 +74,7 @@ function dot_get_component_post_type() {
  */
 function dot_is_component_screen() {
     $screen = get_current_screen();
-    return is_admin() && $screen->post_type === \DOT\Core\Components::$post_type;
+    return is_admin() && $screen->post_type === \DOT\Core\Main\Components::$post_type;
 }
 
 /**
@@ -100,7 +82,7 @@ function dot_is_component_screen() {
  * @return mixed
  */
 function dot_is_layout_part($field_group) {
-    return acf_get_instance('\DOT\Core\LayoutParts')->is_layout_part($field_group);
+    return acf_get_instance('\DOT\Core\Main\LayoutParts')->is_layout_part($field_group);
 }
 
 
@@ -108,11 +90,7 @@ function dot_is_layout_part($field_group) {
  * @return mixed
  */
 function dot_is_layout_part_screen() {
-    return acf_get_instance('\DOT\Core\LayoutParts')->is_layout_part_screen();
-}
-
-function dot_get_field_groups_by_location($param, $value, $operator) {
-
+    return acf_get_instance('\DOT\Core\Main\LayoutParts')->is_layout_part_screen();
 }
 
 /**
@@ -122,7 +100,7 @@ function dot_get_field_groups_by_location($param, $value, $operator) {
  * @return array|false
  */
 function get_component_field_group(int $component_id) {
-    return acf_get_instance('\DOT\Core\Components')->get_field_group($component_id);
+    return acf_get_instance('\DOT\Core\Main\Components')->get_field_group($component_id);
 }
 
 

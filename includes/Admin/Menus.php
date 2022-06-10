@@ -2,6 +2,8 @@
 
 namespace DOT\Core\Admin;
 
+use DOT\Core\Main\Components;
+
 class Menus {
 
     public function __construct() {
@@ -49,7 +51,7 @@ class Menus {
                 'page_title' => __('Components', 'dotcore'),
                 'menu_title' => __('Components', 'dotcore'),
                 'capability' => 'edit_posts',
-                'menu_slug' => 'edit.php?post_type=' . \DOT\Core\Components::$post_type,
+                'menu_slug' => 'edit.php?post_type=' . Components::$post_type,
                 'callback' => null,
                 'position' => 20,
             )

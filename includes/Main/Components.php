@@ -1,6 +1,6 @@
 <?php
 
-namespace DOT\Core;
+namespace DOT\Core\Main;
 
 class Components {
 
