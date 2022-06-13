@@ -56,7 +56,7 @@ class DOT_Core {
         define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/dotstarter/layouts/');
         define('DOT_THEME_LAYOUTS_URI', get_stylesheet_directory_uri() . '/dotstarter/layouts/');
         define('DOT_THEME_LAYOUT_PARTS_PATH', get_stylesheet_directory() . '/dotstarter/layout-parts/');
-        define('DOT_THEME_LAYOUT_PARTS_URI', get_stylesheet_directory_uri() . '/dotstarter/layouts-parts/');
+        define('DOT_THEME_LAYOUT_PARTS_URI', get_stylesheet_directory_uri() . '/dotstarter/layout-parts/');
         define('DOT_THEME_COMPONENTS_PATH', get_stylesheet_directory() . '/dotstarter/components/');
         define('DOT_THEME_COMPONENTS_URI', get_stylesheet_directory_uri() . '/dotstarter/components/');
         define('DOT_THEME_ASSETS_PATH', get_stylesheet_directory() . '/assets/');

@@ -3,7 +3,7 @@
 namespace DOT\Core\Main;
 
 class Components {
-
+    use HasTemplateFiles;
     /**
      * Post type slug
      *
@@ -53,118 +53,16 @@ class Components {
         if (!$component)
             return;
 
-        $name = $component->post_name;
+        $slug = $component->post_name;
 
 
         // Enqueue styles and script
-        $this->component_enqueue($name);
+        $this->enqueue($slug, 'component');
 
         // Render template
-        $this->render_template($component);
+        $this->render($slug, 'component');
     }
 
-
-    /**
-     * Enqueue component styles and scripts
-     *
-     * @param $name
-     * @return void
-     */
-    public function component_enqueue($name) {
-        global $is_preview;
-        $handle = 'component-' . $name;
-
-        $style = DOT_THEME_COMPONENTS_URI . $name . '/' . $name . '.css';
-        $script = DOT_THEME_COMPONENTS_URI . $name . '/' . $name . '.js';
-
-        // Check
-        if (!empty($style)) {
-
-            // URL starting with current domain
-            if (stripos($style, home_url()) === 0) {
-
-                $style = str_replace(home_url(), '', $style);
-
-            }
-
-            // Locate
-            $style_file = acfe_locate_file_url($style);
-
-            // Front-end
-            if (!empty($style_file)) {
-
-                wp_enqueue_style($handle, $style_file, array(), false, 'all');
-
-            }
-
-        }
-
-        // Check
-        if (!empty($script)) {
-
-            // URL starting with current domain
-            if (stripos($script, home_url()) === 0) {
-
-                $script = str_replace(home_url(), '', $script);
-
-            }
-
-            // Locate
-            $script_file = acfe_locate_file_url($script);
-
-            // Front-end
-            if (!$is_preview || (stripos($script, 'http://') === 0 || stripos($script, 'https://') === 0 || stripos($script, '//') === 0)) {
-
-                if (!empty($script_file)) {
-
-                    wp_enqueue_script($handle, $script_file, array(), false, true);
-
-                }
-
-            } else {
-
-                $path = pathinfo($script);
-                $extension = $path['extension'];
-
-                $script_preview = substr($script, 0, -strlen($extension) - 1);
-                $script_preview .= '-preview.' . $extension;
-
-                $script_preview = acfe_locate_file_url($script_preview);
-
-                // Enqueue
-                if (!empty($script_preview)) {
-
-                    wp_enqueue_script($handle . '-preview', $script_preview, array(), false, true);
-
-                } elseif (!empty($script_file)) {
-
-                    wp_enqueue_script($handle, $script_file, array(), false, true);
-
-                }
-
-            }
-
-        }
-    }
-
-    /**
-     * Render component template
-     *
-     * @param \WP_Post $component
-     * @return void
-     */
-    public function render_template(\WP_Post $component) {
-        $name = $component->post_name;
-        $file = DOT_THEME_COMPONENTS_PATH . $name . '/' . $name . '.php';
-
-        $file_found = acfe_locate_file_path($file);
-
-        if (!empty($file_found)) {
-            $fields = get_fields($component->ID);
-
-            include($file_found);
-        }
-    }
 
     /**
      * Get field group attached to a component

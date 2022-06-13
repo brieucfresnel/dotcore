@@ -3,6 +3,7 @@
 namespace DOT\Core\Main;
 
 class LayoutParts {
+    use HasTemplateFiles;
 
     /**
      * Get the registered layout parts
@@ -34,98 +35,10 @@ class LayoutParts {
     public function the_layout_part(string $slug, string $selector) {
         global $is_preview;
         // Enqueue styles and script
-        $this->layout_part_enqueue($slug);
+        $this->enqueue($slug, 'layout_part');
 
         // Render template
-        $this->render_template($slug, $selector);
-    }
-
-    public function layout_part_enqueue(string $slug) {
-        global $is_preview;
-        $handle = 'layout-part-' . $slug;
-
-        $style = DOT_THEME_LAYOUT_PARTS_PATH . $slug . '/' . $slug . '.css';
-        $script = DOT_THEME_LAYOUT_PARTS_PATH . $slug . '/' . $slug . '.js';
-
-        // Check
-        if (!empty($style)) {
-
-            // URL starting with current domain
-            if (stripos($style, home_url()) === 0) {
-
-                $style = str_replace(home_url(), '', $style);
-
-            }
-
-            // Locate
-            $style_file = acfe_locate_file_url($style);
-
-            // Front-end
-            if (!empty($style_file)) {
-
-                wp_enqueue_style($handle, $style_file, array(), false, 'all');
-
-            }
-
-        }
-
-        // Check
-        if (!empty($script)) {
-
-            // URL starting with current domain
-            if (stripos($script, home_url()) === 0) {
-
-                $script = str_replace(home_url(), '', $script);
-
-            }
-
-            // Locate
-            $script_file = acfe_locate_file_url($script);
-
-
-            // Front-end
-            if (!$is_preview || (stripos($script, 'http://') === 0 || stripos($script, 'https://') === 0 || stripos($script, '//') === 0)) {
-
-                if (!empty($script_file)) {
-
-                    wp_enqueue_script($handle, $script_file, array(), false, true);
-
-                }
-
-            } else {
-
-                $path = pathinfo($script);
-                $extension = $path['extension'];
-
-                $script_preview = substr($script, 0, -strlen($extension) - 1);
-                $script_preview .= '-preview.' . $extension;
-
-                $script_preview = acfe_locate_file_url($script_preview);
-
-                // Enqueue
-                if (!empty($script_preview)) {
-
-                    wp_enqueue_script($handle . '-preview', $script_preview, array(), false, true);
-
-                } elseif (!empty($script_file)) {
-
-                    wp_enqueue_script($handle, $script_file, array(), false, true);
-
-                }
-
-            }
-
-        }
-    }
-
-    public function render_template(string $slug, string $selector) {
-        $file = DOT_THEME_LAYOUT_PARTS_PATH . $slug . '/' . $slug . '.php';
-        $file_found = acfe_locate_file_path($file);
-
-        if (!empty($file_found)) {
-            $fields = get_sub_field($selector);
-            include($file_found);
-        }
+        $this->render($slug, 'layout_part', $selector);
     }
 
     /**
