@@ -125,6 +125,23 @@ class LayoutsSingle {
         $field_group = $meta_box['args']['field_group'];
         $layout_slug = acf_maybe_get($field_group, 'dot_layout_slug') ? acf_slugify($field_group['dot_layout_slug']) : acf_slugify(get_the_title());
 
+        acf_render_field_wrap(array(
+            'label'             => __('Thumbnail','acf'),
+            'type'              => 'image',
+            'name'              => 'dot_thumbnail',
+            'prefix'            => 'acf_field_group',
+            'value'             => (isset($group['dot_thumbnail'])) ? $group['dot_thumbnail'] : '',
+            'preview_size'      => 'thumbnail',
+            //'min_width'       => 10,
+            //'min_height'      => 20,
+            //'max_width'       => 100,
+            //'max_height'      => 200,
+            //'min_size'        => 5,
+            //'max_size'        => 50,
+            //'mime_types'      => 'jpg,pdf'
+            //'return_format'   => 'url'
+        ));
+
         acf_render_field_wrap(
             array(
                 'label' => __('Slug', 'dotcore'),

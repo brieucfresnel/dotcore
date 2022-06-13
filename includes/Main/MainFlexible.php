@@ -101,6 +101,11 @@ if (!class_exists('MainFlexible')) {
                     }
                 }
 
+                $thumbnail = '';
+                if(!empty($field_group['dot_thumbnail'])) {
+                    $thumbnail = $field_group['dot_thumbnail'];
+                }
+
                 // Store layout
                 $layouts[] = array(
                     'key' => 'group_' . $layout_slug,
@@ -109,6 +114,14 @@ if (!class_exists('MainFlexible')) {
                     'name' => $name,
                     'label' => $title,
                     'display' => $display,
+                    'acfe_flexible_render_template' => $render_layout,
+                    'acfe_flexible_render_style' => $render_style,
+                    'acfe_flexible_render_script' => $render_script,
+                    'acfe_flexible_settings' => array(
+                        0 => LayoutSettings::$group_key,
+                    ),
+                    'acfe_flexible_category' => $acfe_categories,
+                    'acfe_flexible_thumbnail' => $thumbnail,
                     'sub_fields' => array(
                         array(
                             'key' => 'field_clone_' . $layout_slug,
@@ -133,13 +146,6 @@ if (!class_exists('MainFlexible')) {
 
                         ),
                     ),
-                    'acfe_flexible_render_template' => $render_layout,
-                    'acfe_flexible_render_style' => $render_style,
-                    'acfe_flexible_render_script' => $render_script,
-                    'acfe_flexible_settings' => array(
-                        0 => LayoutSettings::$group_key,
-                    ),
-                    'acfe_flexible_category' => $acfe_categories
                 );
             }
 
