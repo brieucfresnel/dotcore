@@ -111,7 +111,6 @@ class DOT_Core {
     public function init() {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_styles'));
-        add_filter('script_loader_tag', array($this, 'set_scripts_type_module_attribute'), 10, 3);
         add_action('wp_head', array($this, 'setup_GTM'));
     }
 
@@ -122,17 +121,6 @@ class DOT_Core {
     public function enqueue_scripts() {
     }
 
-    public function set_scripts_type_module_attribute($tag, $handle, $src) {
-        // if not your script, do nothing and return original $tag
-        if ('dotstarter-frontend' !== $handle) {
-            return $tag;
-        }
-        // change the script tag by adding type="module" and return it.
-        $tag = '<script type="module" src="' . esc_url($src) . '"></script>';
-
-        return $tag;
-    }
-
     public function setup_GTM() {
         $GTM_ID = get_field('key_gtm', 'option');
 
@@ -140,11 +128,19 @@ class DOT_Core {
         if (!preg_match('/^GTM-[A-Z0-9]{1,7}$/', $GTM_ID)) return;
 
         ?>
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer', <?= $GTM_ID ?>;</script>
+        <script>(function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start':
+                        new Date().getTime(), event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', '<?= $GTM_ID ?>');</script>
         <?php
     }
 
