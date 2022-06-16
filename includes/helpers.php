@@ -17,6 +17,16 @@ function the_dot_layouts() {
     endif;
 }
 
+/**
+ * @param string $slug
+ * @param string|false $selector
+ *
+ * @return void
+ */
+function the_dot_layout(string $slug, $selector = false) {
+	acf_get_instance('\DOT\Core\Main\Layouts')->the_layout($slug, $selector);
+}
+
 
 /**
  * @param $field_group

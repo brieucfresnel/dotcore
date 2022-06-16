@@ -111,6 +111,7 @@ if (!class_exists('MainFlexible')) {
                     'key' => 'group_' . $layout_slug,
                     'dot_layout_slug' => $layout_slug,
                     'dot_is_layout' => 1,
+                    'dot_is_component' => 1,
                     'name' => $name,
                     'label' => $title,
                     'display' => $display,

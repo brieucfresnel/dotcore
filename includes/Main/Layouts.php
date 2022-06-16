@@ -3,7 +3,7 @@
 namespace DOT\Core\Main;
 
 class Layouts {
-
+	use HasTemplateFiles;
     /**
      * Get the registered flexible layouts
      *
@@ -23,6 +23,23 @@ class Layouts {
 
         return $layouts;
     }
+
+	/**
+	 * Render layout template
+	 *
+	 * @param string $type
+	 * @param bool|string $selector
+	 *
+	 * @return void
+	 */
+	public function the_layout(string $slug, $selector = false): void {
+		global $is_preview;
+		// Enqueue styles and script
+		$this->enqueue($slug, 'layout');
+
+		// Render template
+		$this->render($slug, 'layout', $selector);
+	}
 
     /**
      * Check whether a field group is a flexible layout

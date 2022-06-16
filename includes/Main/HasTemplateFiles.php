@@ -3,6 +3,10 @@
 namespace DOT\Core\Main;
 
 trait HasTemplateFiles {
+
+	private $styleHandle;
+	private $scriptHandle;
+
     /**
      * Enqueue css and js files
      *
@@ -20,6 +24,8 @@ trait HasTemplateFiles {
             $baseURI = DOT_THEME_COMPONENTS_URI;
         } else if ($type === 'layout_part') {
             $baseURI = DOT_THEME_LAYOUT_PARTS_URI;
+        } else if($type === 'layout') {
+			$baseURI = DOT_THEME_LAYOUTS_URI;
         }
 
         $style = $baseURI . $slug . '/' . $slug . '.css';
@@ -34,15 +40,12 @@ trait HasTemplateFiles {
                 $style = str_replace(home_url(), '', $style);
 
             }
-
             // Locate
             $style_file = acfe_locate_file_url($style);
 
             // Front-end
             if (!empty($style_file)) {
-
                 wp_enqueue_style($handle, $style_file, array(), false, 'all');
-
             }
 
         }
@@ -101,7 +104,7 @@ trait HasTemplateFiles {
      *
      * @param string $slug
      * @param string $type
-     * @param $selector
+     * @param string|false $selector
      * @return void
      */
     public function render(string $slug, string $type, $selector = false) {
@@ -112,11 +115,12 @@ trait HasTemplateFiles {
             $basePath = DOT_THEME_COMPONENTS_PATH;
         } else if ($type === 'layout_part') {
             $basePath = DOT_THEME_LAYOUT_PARTS_PATH;
+        } else if($type === 'layout') {
+			$basePath = DOT_THEME_LAYOUTS_PATH;
         }
 
         $file = $basePath . $slug . '/' . $slug . '.php';
         $file_found = acfe_locate_file_path($file);
-
 
         // Get acf fields if needed
         if ($selector) {
