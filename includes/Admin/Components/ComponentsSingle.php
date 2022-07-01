@@ -47,7 +47,7 @@ class ComponentsSingle {
         $card = '<div class="card">';
 
         if (!$field_group_id) {
-            $card .= __('Please target this component from a field group for it to be editable. ', 'dotcore');
+            $card .= __('Please target this component from a field group for it to be editable.', 'dotcore') . ' ';
             $card .= '<a href="edit.php?post_type=acf-field-group">' . __('Go to field groups', 'dotcore') . '</a>';
         } else {
             $card .= '<a href="post.php?post=' . $field_group_id . '&action=edit">' . __('Edit component\'s field group', 'dotcore') . '</a>';
@@ -63,7 +63,7 @@ class ComponentsSingle {
     }
     public function save_post($post_id, $post, $update) {
         // Fire only once
-        if ( !$post->post_title || $post->post_status === 'auto-draft' ) {
+        if ( !$post->post_title || $post->post_status === 'auto-draft' || $update ) {
             return;
         }
 
