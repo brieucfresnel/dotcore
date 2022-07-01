@@ -65,11 +65,11 @@ if (!class_exists('MainFlexible')) {
                 $title = $field_group['title'];
                 $name = sanitize_title($field_group['title']);
                 $layout_slug = $field_group['dot_layout_slug'];
-                $file_path = DOT_THEME_LAYOUTS_PATH . $name . '/';
+                $file_path = DOT_THEME_LAYOUTS_PATH . $layout_slug . '/';
 
-                $render_layout = $file_path . $name . '.php';
-                $render_script = $file_path . $name . '.js';
-                $render_style = $file_path . $name . '.css';
+                $render_layout = $file_path . $layout_slug . '.php';
+                $render_script = $file_path . $layout_slug . '.js';
+                $render_style = $file_path . $layout_slug . '.css';
 
                 if (!file_exists($render_style)) {
                     $render_style = null;
