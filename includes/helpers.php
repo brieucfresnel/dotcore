@@ -75,7 +75,7 @@ function dot_get_components(): array {
  * @param int $id
  * @return void
  */
-function the_component(int $id): void {
+function dot_the_component(int $id): void {
     acf_get_instance('\DOT\Core\Main\Components')->the_component($id);
 }
 
