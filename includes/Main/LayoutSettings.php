@@ -195,7 +195,7 @@ if (!class_exists('LayoutSettings')) {
             $settings = get_sub_field($layout['sub_fields'][0]['key']);
             $this->settings = $settings;
 
-            echo $this->get_header();
+            echo $this->get_header($layout);
             echo $this->get_container();
         }
 
@@ -206,13 +206,14 @@ if (!class_exists('LayoutSettings')) {
         /**
          * Get layout header template
          *
+         * @param array layout
          * @return string
          */
-        private function get_header(): string {
+        private function get_header(array $layout): string {
 
             // Set default and custom CSS classes
             $classes = array('layout');
-            $classes[] = 'f-' . str_replace('_', '-', get_row_layout());
+            $classes[] = $layout['dot_layout_slug'];
             if ($this->is_preview) {
                 $classes[] = 'is-preview';
             }
