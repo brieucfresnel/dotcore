@@ -66,6 +66,10 @@ class LayoutsSingle {
 	public function generate_directory_files( $field_group ) {
 		$layout_title = $field_group['dot_layout_slug'];
 
+		if ( empty( $layout_title ) ) {
+			return;
+		}
+
 		// Create layout folder if doesn't exists
 		if ( ! file_exists( DOT_THEME_LAYOUTS_PATH . $layout_title ) ) {
 			wp_mkdir_p( DOT_THEME_LAYOUTS_PATH . $layout_title );
@@ -117,7 +121,6 @@ class LayoutsSingle {
 			'high',
 			array( 'field_group' => $field_group )
 		);
-
 	}
 
 	public function render_meta_box_main( $post, $meta_box ) {
@@ -133,14 +136,6 @@ class LayoutsSingle {
 			'prefix'       => 'acf_field_group',
 			'value'        => ( isset( $group['dot_thumbnail'] ) ) ? $group['dot_thumbnail'] : '',
 			'preview_size' => 'thumbnail',
-			//'min_width'       => 10,
-			//'min_height'      => 20,
-			//'max_width'       => 100,
-			//'max_height'      => 200,
-			//'min_size'        => 5,
-			//'max_size'        => 50,
-			//'mime_types'      => 'jpg,pdf'
-			//'return_format'   => 'url'
 		) );
 
 		acf_render_field_wrap(

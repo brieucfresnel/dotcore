@@ -110,16 +110,20 @@ class LayoutPartsSingle {
 	 */
 	public function generate_directory_files( $field_group ) {
 
-		$layout_slug = acf_slugify( $field_group['title'] );
+		$slug = $field_group['dot_layout_part_slug'];
+
+		if ( empty( $slug ) ) {
+			return;
+		}
 
 		// Create layout folder if doesn't exists
-		if ( ! file_exists( DOT_THEME_LAYOUT_PARTS_PATH . $layout_slug ) ) {
-			wp_mkdir_p( DOT_THEME_LAYOUT_PARTS_PATH . $layout_slug );
+		if ( ! file_exists( DOT_THEME_LAYOUT_PARTS_PATH . $slug ) ) {
+			wp_mkdir_p( DOT_THEME_LAYOUT_PARTS_PATH . $slug );
 		}
 
 		// Create template file if doesn't exists
-		if ( ! file_exists( DOT_THEME_LAYOUT_PARTS_PATH . $layout_slug . '/' . $layout_slug . '.php' ) ) {
-			touch( DOT_THEME_LAYOUT_PARTS_PATH . $layout_slug . '/' . $layout_slug . '.php' );
+		if ( ! file_exists( DOT_THEME_LAYOUT_PARTS_PATH . $slug . '/' . $slug . '.php' ) ) {
+			touch( DOT_THEME_LAYOUT_PARTS_PATH . $slug . '/' . $slug . '.php' );
 		}
 	}
 
