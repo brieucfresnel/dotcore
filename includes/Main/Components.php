@@ -16,6 +16,9 @@ class Components {
 		// WP hooks
 		add_action( 'init', array( $this, 'register_component' ) );
 
+		// Enqueue styles & scripts
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
 		// ACF hooks
 		add_filter( 'acf/location/rule_values/post_type', array( $this, 'remove_component_from_post_types' ) );
 		add_filter( 'acf/location/rule_values/post', array( $this, 'remove_component_from_posts' ) );
@@ -226,6 +229,17 @@ class Components {
 		}
 
 		return $match;
+	}
+
+	public function enqueue_scripts() {
+		$components_css = glob( DOT_THEME_COMPONENTS_PATH . '*/*.css' );
+		foreach ( $components_css as $component_css ) {
+			$split_path = explode( '/', $component_css );
+			$filename   = $split_path[ count( $split_path ) - 1 ];
+			$slug       = str_replace( '.css', '', $filename );
+
+			wp_enqueue_style( 'component_' . $slug, DOT_THEME_COMPONENTS_URI . $slug . '/' . $slug . '.css');
+		}
 	}
 
 	public function register_component() {
