@@ -118,9 +118,9 @@ if (!class_exists('MainFlexible')) {
                     'acfe_flexible_render_template' => $render_layout,
                     'acfe_flexible_render_style' => $render_style,
                     'acfe_flexible_render_script' => $render_script,
-                    'acfe_flexible_settings' => array(
-                        0 => LayoutSettings::$group_key,
-                    ),
+//                    'acfe_flexible_settings' => array(
+//                        0 => LayoutSettings::$group_key,
+//                    ),
                     'acfe_flexible_category' => $acfe_categories,
                     'acfe_flexible_thumbnail' => $thumbnail,
                     'sub_fields' => array(
@@ -227,7 +227,7 @@ if (!class_exists('MainFlexible')) {
                 'acfe_flexible_remove_button' => array(),
                 'acfe_flexible_layouts_state' => 'user',
                 'acfe_flexible_modal_edit' => array(
-                    'acfe_flexible_modal_edit_enabled' => '0',
+                    'acfe_flexible_modal_edit_enabled' => '1',
                     'acfe_flexible_modal_edit_size' => 'large',
                 ),
                 'acfe_flexible_modal' => array(
