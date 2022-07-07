@@ -18,6 +18,7 @@ class Components {
 
 		// Enqueue styles & scripts
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// ACF hooks
 		add_filter( 'acf/location/rule_values/post_type', array( $this, 'remove_component_from_post_types' ) );
