@@ -54,8 +54,8 @@ export const styles = () => {
 }
 
 export const watchForChanges = () => {
-    watch('assets/scss/**/*.scss', series(styles, reload));
-    watch('assets/js/**/*.js', series(scripts, reload));
+    watch('assets/scss/**/*.scss', series(styles));
+    watch('assets/js/**/*.js', series(scripts));
 }
 
 export const clean = () => del(['dist']);
@@ -63,7 +63,7 @@ export const clean = () => del(['dist']);
 const server = browserSync.create();
 export const serve = done => {
     server.init({
-        proxy: "https://wp-rest-api.test" // TODO: gulp config : dynamic proxy URL
+        proxy: "https://clospadulis.test" // TODO: gulp config : dynamic proxy URL
     });
     done();
 };
