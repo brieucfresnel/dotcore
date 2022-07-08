@@ -51,7 +51,7 @@ class Components {
 	 * @return void
 	 */
 	public function the_component( $component_slug ) {
-		$component = get_page_by_path($component_slug, OBJECT, 'dot-component');
+		$component = get_page_by_path( $component_slug, OBJECT, 'dot-component' );
 
 		if ( ! $component ) {
 			return;
@@ -63,7 +63,7 @@ class Components {
 
 		$slug = $component->post_name;
 
-		$fields = get_fields($component->ID);
+		$fields = get_fields( $component->ID );
 
 		// Fake wrapper field
 		$field_key = 'field_component_wrapper_' . $component_slug;
@@ -84,7 +84,11 @@ class Components {
 			)
 		);
 
-		acf_setup_meta( $fields, 'dot_component', true );
+		$meta_setup_needed = count( $fields ) > 1;
+
+		if ( $meta_setup_needed ) {
+			acf_setup_meta( $fields, 'dot_component', true );
+		}
 
 		// Enqueue styles and script
 		$this->enqueue( $slug, 'component' );
@@ -92,7 +96,10 @@ class Components {
 		// Render template
 		$this->render( $slug, 'component' );
 
-		acf_reset_meta('dot_component');
+		if ( $meta_setup_needed ) {
+			acf_reset_meta( 'dot_component' );
+			$instance->post_id = $previous_id;
+		}
 	}
 
 
@@ -258,14 +265,14 @@ class Components {
 	}
 
 	public function enqueue_scripts() {
-		$components_css = glob( DOT_THEME_COMPONENTS_PATH . '*/*.css' );
-		foreach ( $components_css as $component_css ) {
-			$split_path = explode( '/', $component_css );
-			$filename   = $split_path[ count( $split_path ) - 1 ];
-			$slug       = str_replace( '.css', '', $filename );
-
-			wp_enqueue_style( 'component_' . $slug, DOT_THEME_COMPONENTS_URI . $slug . '/' . $slug . '.css');
-		}
+//		$components_css = glob( DOT_THEME_COMPONENTS_PATH . '*/*.css' );
+//		foreach ( $components_css as $component_css ) {
+//			$split_path = explode( '/', $component_css );
+//			$filename   = $split_path[ count( $split_path ) - 1 ];
+//			$slug       = str_replace( '.css', '', $filename );
+//
+//			wp_enqueue_style( 'component_' . $slug, DOT_THEME_COMPONENTS_URI . $slug . '/' . $slug . '.css');
+//		}
 	}
 
 	public function register_component() {
