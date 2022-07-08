@@ -101,28 +101,26 @@ if (!class_exists('MainFlexible')) {
                     }
                 }
 
-                $thumbnail = '';
+				$acfe_categories = empty($acfe_categories) ? [] : $acfe_categories;
+
+	            $thumbnail = '';
                 if(!empty($field_group['dot_thumbnail'])) {
                     $thumbnail = $field_group['dot_thumbnail'];
                 }
-
                 // Store layout
                 $layouts[] = array(
                     'key' => 'group_' . $layout_slug,
                     'dot_layout_slug' => $layout_slug,
                     'dot_is_layout' => 1,
-                    'dot_is_component' => 1,
                     'name' => $name,
                     'label' => $title,
                     'display' => $display,
                     'acfe_flexible_render_template' => $render_layout,
                     'acfe_flexible_render_style' => $render_style,
                     'acfe_flexible_render_script' => $render_script,
-//                    'acfe_flexible_settings' => array(
-//                        0 => LayoutSettings::$group_key,
-//                    ),
                     'acfe_flexible_category' => $acfe_categories,
                     'acfe_flexible_thumbnail' => $thumbnail,
+					'acfe_flexible_settings' => "",
                     'sub_fields' => array(
                         array(
                             'key' => 'field_clone_' . $layout_slug,
@@ -159,38 +157,40 @@ if (!class_exists('MainFlexible')) {
          * @return void
          */
         private function create_main_group() {
-            acf_add_local_field_group(array(
-                'key' => self::$group_key,
-                'title' => 'Dispositions',
-                'fields' => array(),
-                'location' => array(
-                    array(
-                        array(
-                            'param' => 'post_type',
-                            'operator' => '==',
-                            'value' => 'page',
-                        ),
-                    ),
-                ),
-                'menu_order' => 0,
-                'position' => 'normal',
-                'style' => 'default',
-                'label_placement' => 'left',
-                'instruction_placement' => 'label',
-                'hide_on_screen' => '',
-                'active' => true,
-                'description' => '',
-                'show_in_rest' => 0,
-                'acfe_display_title' => '',
-                'acfe_autosync' => array(
-                    1 => 'php',
-                    1 => 'json',
-                ),
-                'acfe_form' => 0,
-                'acfe_meta' => '',
-                'acfe_note' => '',
-                'modified' => 1647265579,
-            ));
+			$config = array(
+				'key' => self::$group_key,
+				'title' => 'Dispositions',
+				'fields' => array(),
+				'location' => array(
+					array(
+						array(
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'page',
+						),
+					),
+				),
+				'menu_order' => 0,
+				'position' => 'normal',
+				'style' => 'default',
+				'label_placement' => 'left',
+				'instruction_placement' => 'label',
+				'hide_on_screen' => '',
+				'active' => true,
+				'description' => '',
+				'show_in_rest' => 0,
+				'acfe_display_title' => '',
+				'acfe_autosync' => array(
+					1 => 'php',
+					1 => 'json',
+				),
+				'acfe_form' => 0,
+				'acfe_meta' => '',
+				'acfe_note' => '',
+				'modified' => 1647265579,
+			);
+
+            acf_add_local_field_group($config);
         }
 
 
@@ -222,6 +222,7 @@ if (!class_exists('MainFlexible')) {
                 'acfe_flexible_layouts_placeholder' => 1,
                 'acfe_flexible_layouts_thumbnails' => 1,
                 'acfe_flexible_layouts_settings' => 1,
+
                 'acfe_flexible_async' => array(),
                 'acfe_flexible_add_actions' => array(),
                 'acfe_flexible_remove_button' => array(),
@@ -241,7 +242,7 @@ if (!class_exists('MainFlexible')) {
                 'parent' => self::$group_key
             );
 
-            acf_add_local_field($config);
+	        acf_add_local_field($config);
         }
 
         /**
