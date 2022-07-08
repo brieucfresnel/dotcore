@@ -45,7 +45,7 @@ trait HasTemplateFiles {
 
             // Front-end
             if (!empty($style_file)) {
-                wp_enqueue_style($handle, $style_file, array(), false, 'all');
+				wp_enqueue_style($handle, $style_file, array(), false, 'all');
             }
 
         }
@@ -119,11 +119,12 @@ trait HasTemplateFiles {
 			$basePath = DOT_THEME_LAYOUTS_PATH;
         }
 
+
         $file = $basePath . $slug . '/' . $slug . '.php';
         $file_found = acfe_locate_file_path($file);
 
         if (!empty($file_found)) {
-            include($file_found);
+	        include($file_found);
         }
 
     }
