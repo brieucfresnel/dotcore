@@ -38,7 +38,7 @@ class LayoutParts {
         $this->enqueue($slug, 'layout_part');
 
         // Render template
-        $this->render($slug, 'layout_part', $selector);
+        $this->render($slug, 'layout_part');
     }
 
     /**
