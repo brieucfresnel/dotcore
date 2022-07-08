@@ -46,28 +46,53 @@ class Components {
 	/**
 	 * Render component template
 	 *
-	 * @param $component_id
+	 * @param $component_slug
 	 *
 	 * @return void
 	 */
-	public function the_component( $component_id ) {
-		if ( ! is_numeric( $component_id ) ) {
-			return;
-		}
+	public function the_component( $component_slug ) {
+		$component = get_page_by_path($component_slug, OBJECT, 'dot-component');
 
-		$component = get_post( $component_id );
 		if ( ! $component ) {
 			return;
 		}
 
+		// Store preview post ID
+		$instance    = acf_get_instance( 'ACF_Local_Meta' );
+		$previous_id = $instance->post_id;
+
 		$slug = $component->post_name;
 
+		$fields = get_fields($component->ID);
+
+		// Fake wrapper field
+		$field_key = 'field_component_wrapper_' . $component_slug;
+		// Get sub fields
+		$sub_fields = array();
+		foreach ( $fields as $key => $value ) {
+			$sub_fields[] = array(
+				'key'  => $key,
+				'type' => 'text',
+			);
+		}
+		// Create fake field
+		acf_add_local_field(
+			array(
+				'key'        => $field_key,
+				'type'       => 'group',
+				'sub_fields' => $sub_fields,
+			)
+		);
+
+		acf_setup_meta( $fields, 'dot_component', true );
 
 		// Enqueue styles and script
 		$this->enqueue( $slug, 'component' );
 
 		// Render template
 		$this->render( $slug, 'component' );
+
+		acf_reset_meta('dot_component');
 	}
 
 
