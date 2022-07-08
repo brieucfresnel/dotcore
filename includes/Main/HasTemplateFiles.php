@@ -107,7 +107,7 @@ trait HasTemplateFiles {
      * @param string|false $selector
      * @return void
      */
-    public function render(string $slug, string $type, $selector = false) {
+    public function render(string $slug, string $type) {
 
         $basePath = '';
 
@@ -122,13 +122,9 @@ trait HasTemplateFiles {
         $file = $basePath . $slug . '/' . $slug . '.php';
         $file_found = acfe_locate_file_path($file);
 
-        // Get acf fields if needed
-        if ($selector) {
-            $fields = get_sub_field($selector);
-        }
-
         if (!empty($file_found)) {
             include($file_found);
         }
+
     }
 }
