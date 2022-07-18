@@ -23,7 +23,7 @@ function the_dot_layouts() {
  * @return void
  */
 function the_dot_layout( string $slug, $selector = false ) {
-	acf_get_instance( '\DOT\Core\Main\Layouts' )->the_layout( $slug, $selector );
+	acf_get_instance( '\DOT\Core\Main\Layouts' )->the_layout( $slug );
 }
 
 
