@@ -29,16 +29,15 @@ class LayoutParts {
      * Render layout part template
      *
      * @param string $type
-     * @param string $selector
+     * @param string|null $selector
      * @return void
      */
-    public function the_layout_part(string $slug, string $selector) {
-        global $is_preview;
+    public function the_layout_part(string $slug, string $selector = null) {
         // Enqueue styles and script
         $this->enqueue($slug, 'layout_part');
 
         // Render template
-        $this->render($slug, 'layout_part');
+        $this->render($slug, 'layout_part', $selector);
     }
 
     /**
