@@ -189,7 +189,7 @@ class Components {
 	 *
 	 * @return array
 	 */
-	public function location_values( $values, $rule ) {
+	public function location_values( $values, $rule ): array {
 
 		// Get posts grouped by
 		$posts = get_posts(
@@ -224,7 +224,7 @@ class Components {
 	 *
 	 * @return bool
 	 */
-	public function location_match( $result, $rule, $screen ) {
+	public function location_match( $result, $rule, $screen ): bool {
 		global $current_screen;
 
 		// Get post ID
