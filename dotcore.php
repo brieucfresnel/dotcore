@@ -106,6 +106,11 @@ class DOT_Core {
         // Register custom field types
         acf_register_field_type('DOT\Core\Fields\FieldLayoutPart');
         acf_register_field_type('DOT\Core\Fields\FieldComponent');
+
+        // Set gmaps api key
+        if(defined('GMAPS_API_KEY')) {
+	        acf_update_setting( 'google_api_key', GMAPS_API_KEY );
+        }
     }
 
     public function init() {
