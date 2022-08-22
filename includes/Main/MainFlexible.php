@@ -76,9 +76,9 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 				}
 
 				// Check if JS file exists before enqueue
-				if ( ! file_exists( $render_script ) ) {
-					$render_script = null;
-				}
+//				if ( ! file_exists( $render_script ) ) {
+//					$render_script = null;
+//				}
 
 				// Get layout alignment
 				switch ( $field_group['label_placement'] ) {
@@ -117,7 +117,7 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 					'display'                       => $display,
 					'acfe_flexible_render_template' => $render_layout,
 					'acfe_flexible_render_style'    => $render_style,
-					'acfe_flexible_render_script'   => $render_script,
+//					'acfe_flexible_render_script'   => $render_script,
 					'acfe_flexible_category'        => $acfe_categories,
 					'acfe_flexible_thumbnail'       => $thumbnail,
 					'acfe_flexible_settings'        => "",

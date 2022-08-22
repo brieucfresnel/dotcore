@@ -27,7 +27,7 @@ trait HasTemplateFiles {
 		}
 
 		$style  = $baseURI . $slug . '/' . $slug . '.css';
-		$script = $baseURI . $slug . '/' . $slug . '.js';
+//		$script = $baseURI . $slug . '/' . $slug . '.js';
 
 		// Check
 		if ( ! empty( $style ) ) {
@@ -49,52 +49,52 @@ trait HasTemplateFiles {
 		}
 
 		// Check
-		if ( ! empty( $script ) ) {
-
-			// URL starting with current domain
-			if ( stripos( $script, home_url() ) === 0 ) {
-
-				$script = str_replace( home_url(), '', $script );
-
-			}
-
-			// Locate
-			$script_file = acfe_locate_file_url( $script );
-
-
-			// Front-end
-			if ( ! $is_preview || ( stripos( $script, 'http://' ) === 0 || stripos( $script, 'https://' ) === 0 || stripos( $script, '//' ) === 0 ) ) {
-
-				if ( ! empty( $script_file ) ) {
-
-					wp_enqueue_script( $handle, $script_file, array(), false, true );
-
-				}
-
-			} else {
-
-				$path      = pathinfo( $script );
-				$extension = $path['extension'];
-
-				$script_preview = substr( $script, 0, - strlen( $extension ) - 1 );
-				$script_preview .= '-preview.' . $extension;
-
-				$script_preview = acfe_locate_file_url( $script_preview );
-
-				// Enqueue
-				if ( ! empty( $script_preview ) ) {
-
-					wp_enqueue_script( $handle . '-preview', $script_preview, array(), false, true );
-
-				} elseif ( ! empty( $script_file ) ) {
-
-					wp_enqueue_script( $handle, $script_file, array(), false, true );
-
-				}
-
-			}
-
-		}
+//		if ( ! empty( $script ) ) {
+//
+//			// URL starting with current domain
+//			if ( stripos( $script, home_url() ) === 0 ) {
+//
+//				$script = str_replace( home_url(), '', $script );
+//
+//			}
+//
+//			// Locate
+//			$script_file = acfe_locate_file_url( $script );
+//
+//
+//			// Front-end
+//			if ( ! $is_preview || ( stripos( $script, 'http://' ) === 0 || stripos( $script, 'https://' ) === 0 || stripos( $script, '//' ) === 0 ) ) {
+//
+//				if ( ! empty( $script_file ) ) {
+//
+//					wp_enqueue_script( $handle, $script_file, array(), false, true );
+//
+//				}
+//
+//			} else {
+//
+//				$path      = pathinfo( $script );
+//				$extension = $path['extension'];
+//
+//				$script_preview = substr( $script, 0, - strlen( $extension ) - 1 );
+//				$script_preview .= '-preview.' . $extension;
+//
+//				$script_preview = acfe_locate_file_url( $script_preview );
+//
+//				// Enqueue
+//				if ( ! empty( $script_preview ) ) {
+//
+//					wp_enqueue_script( $handle . '-preview', $script_preview, array(), false, true );
+//
+//				} elseif ( ! empty( $script_file ) ) {
+//
+//					wp_enqueue_script( $handle, $script_file, array(), false, true );
+//
+//				}
+//
+//			}
+//
+//		}
 	}
 
 	/**
