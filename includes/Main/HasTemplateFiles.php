@@ -36,8 +36,9 @@ trait HasTemplateFiles {
 			if ( stripos( $style, home_url() ) === 0 ) {
 
 				$style = str_replace( home_url(), '', $style );
-
+				$style = substr(ABSPATH, 0, -1) . $style;
 			}
+
 			// Locate
 			$style_file = acfe_locate_file_url( $style );
 
