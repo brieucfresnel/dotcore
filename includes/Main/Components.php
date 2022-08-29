@@ -63,7 +63,7 @@ class Components {
 
 		$slug = $component->post_name;
 
-		$fields = get_fields( $component->ID );
+		$fields = get_fields( $component->ID ) ?: [];
 
 		// Fake wrapper field
 		$field_key = 'field_component_wrapper_' . $component_slug;
