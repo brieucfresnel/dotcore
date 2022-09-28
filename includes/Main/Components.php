@@ -87,7 +87,7 @@ class Components {
 		$meta_setup_needed = count( $fields ) > 1;
 
 		if ( $meta_setup_needed ) {
-			acf_setup_meta( $fields, 'dot_component', true );
+			acfe_setup_meta( $fields, 'dot_component', true );
 		}
 
 		// Enqueue styles and script

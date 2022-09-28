@@ -30,7 +30,7 @@ class FieldLayoutPart extends acf_field {
             'clone' => '',
             'prefix_label' => 0,
             'prefix_name' => 0,
-            'display' => 'group',
+            'display' => 'seamless',
             'layout' => 'block',
         );
         $this->cloning = array();

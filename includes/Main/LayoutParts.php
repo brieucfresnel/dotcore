@@ -32,48 +32,12 @@ class LayoutParts {
      * @param string|null $selector
      * @return void
      */
-    public function the_layout_part(string $slug, string $selector = null) {
-
-
-        // Store preview post ID
-        $instance = acf_get_instance('ACF_Local_Meta');
-        $previous_id = $instance->post_id;
-
-        $fields = get_sub_field($selector) ?: [];
-
-        if($fields) {
-            $field_key = 'field_component_wrapper_' . $slug;
-            // Get sub fields
-            $sub_fields = array();
-            foreach ($fields as $key => $value) {
-                $sub_fields[] = array(
-                    'key' => $key,
-                    'type' => 'text',
-                );
-            }
-
-            // Create fake field
-            acf_add_local_field(
-                array(
-                    'key' => $field_key,
-                    'type' => 'group',
-                    'sub_fields' => $sub_fields,
-                )
-            );
-
-            acf_setup_meta($fields, 'dot_layout_part', true);
-        }
-
+    public function the_layout_part(string $slug) {
         // Enqueue styles and script
         $this->enqueue($slug, 'layout_part');
 
         // Render template
-        $this->render($slug, 'layout_part', $selector);
-
-        if ($fields) {
-            acf_reset_meta('dot_layout_part');
-            $instance->post_id = $previous_id;
-        }
+        $this->render($slug, 'layout_part');
     }
 
     /**
