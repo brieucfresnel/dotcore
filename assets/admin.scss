@@ -1,0 +1,110 @@
+$white: #fff;
+
+#acf-group_main_flexible {
+  background: none;
+  border: 0;
+
+  > .postbox-header {
+    display: none;
+  }
+
+  .acf-field-main-flexible .layout {
+    border: 0;
+    background: 0;
+    margin-top: 5px;
+  }
+
+  .acf-field-main-flexible > .acf-field {
+    padding: 0;
+  }
+
+  .acf-field-main-flexible .layout .acf-fc-layout-handle {
+    border: 2px dashed #ccc;
+    margin-bottom: 5px;
+    transition: all 0.3s;
+  }
+
+  .acf-field-main-flexible .layout .acf-fc-layout-controls {
+    top: 10px;
+
+    a.acf-icon:hover {
+      //border-color: #CCC;
+      //color: #CCC;
+    }
+  }
+
+  .acf-field-main-flexible .layout:hover {
+    .acfe-fc-placeholder {
+      border-color: #ccc;
+    }
+  }
+
+  .acf-field-flexible-content[data-name="dot_layouts"]
+    > .acf-input
+    > .acf-flexible-content
+    > .values
+    > .layout
+    > .acfe-fc-placeholder {
+    padding: 5px;
+    border: 2px dashed transparent;
+  }
+
+  .acf-field-flexible-content[data-name="dot_layouts"]
+    > .acf-input
+    > .acf-flexible-content
+    > .values
+    > .layout:hover
+    > .acfe-fc-placeholder {
+    border: 2px dashed #ccc;
+  }
+
+  .layout > .acfe-fc-placeholder.acfe-fc-preview > .acfe-flexible-placeholder {
+    background-color: $white;
+  }
+
+  .layout > .acfe-fc-placeholder .acfe-fc-overlay.-hover,
+  .layout > .acfe-fc-placeholder:hover .acfe-fc-overlay {
+    background-color: transparent;
+  }
+}
+
+//  .layout > .acfe-fc-placeholder.acfe-fc-preview > .acfe-flexible-placeholder:not(:has(.container)):not(:has(.container-fluid)),
+//  .acfe-modal-edit-field_main_flexible .acfe-modal-content {
+//    padding-left: 20px;
+//    padding-right: 20px;
+//  }
+//
+//  .layout:not(.-collapsed) .acf-field:not(.acf-field-repeater) {
+//    margin: 0 20px;
+//  }
+//
+//  .acf-fc-layout-handle {
+//    background: #FFF;
+//  }
+//
+//  .-fields:not(.acfe-modal) .acf-fields.-left > .acf-tab-wrap .acf-tab-group {
+//    padding-left: 10px;
+//  }
+//
+.acf-fields.-left > .acf-field.acf-field-main-flexible::before,
+.acf-fields.-left > .acf-field.acf-field-main-flexible > .acf-label {
+  display: none;
+}
+
+.acf-fields.-left > .acf-field.acf-field-main-flexible > .acf-input {
+  background: 0;
+  width: 100%;
+}
+
+//
+//  .-fields:not(.acfe-modal) .acf-fields.-left > .acf-field > .acf-label {
+//    display: none;
+//  }
+//
+//  .acf-fields.-left > .acf-field > .acf-input {
+//    width: 100%;
+//    float: unset;
+//    padding: 0;
+//  }
+//}
+//

@@ -26,7 +26,8 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 
-class DOT_Core {
+class DOT_Core
+{
     /**
      * @var string
      */
@@ -44,7 +45,8 @@ class DOT_Core {
      */
     private static ?DOT_Core $instance = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         define('DOT_VERSION', $this->version);
         define('DOT_FILE', __FILE__);
         define('DOT_CORE_PATH', plugin_dir_path(__FILE__));
@@ -73,7 +75,8 @@ class DOT_Core {
         add_action('acf/init', array($this, 'load'));
     }
 
-    public static function getInstance(): ?DOT_Core {
+    public static function getInstance(): ?DOT_Core
+    {
         if (self::$instance === null) {
             self::$instance = new DOT_Core();
         }
@@ -81,7 +84,8 @@ class DOT_Core {
         return self::$instance;
     }
 
-    public function load() {
+    public function load()
+    {
         require_once(DOT_CORE_PATH . 'includes/helpers.php');
 
         // Main
@@ -108,45 +112,53 @@ class DOT_Core {
         acf_register_field_type('DOT\Core\Fields\FieldComponent');
 
         // Set gmaps api key
-        if(defined('GMAPS_API_KEY')) {
-	        acf_update_setting( 'google_api_key', GMAPS_API_KEY );
+        if (defined('GMAPS_API_KEY')) {
+            acf_update_setting('google_api_key', GMAPS_API_KEY);
         }
     }
 
-    public function init() {
+    public function init()
+    {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_styles'));
         add_action('wp_head', array($this, 'setup_GTM'));
     }
 
-    public function enqueue_styles() {
-        wp_enqueue_style('dot-admin', DOT_CORE_URL . '/dist/css/admin.css', array(), false);
+    public function enqueue_styles()
+    {
+        wp_enqueue_style('dot-admin-styles', DOT_CORE_URL . '/dist/css/admin.css', array(), false);
     }
 
-    public function enqueue_scripts() {
+    public function enqueue_scripts()
+    {
+        wp_enqueue_script('dot-admin-js', DOT_CORE_URL . '/dist/js/admin.js', array('jquery'), false);
     }
 
-    public function setup_GTM() {
+    public function setup_GTM()
+    {
         $GTM_ID = get_field('key_gtm', 'option');
 
         // Check for GTM ID validity then launch GTM
         if (!preg_match('/^GTM-[A-Z0-9]{1,7}$/', $GTM_ID)) return;
 
-        ?>
-        <script>(function (w, d, s, l, i) {
+?>
+        <script>
+            (function(w, d, s, l, i) {
                 w[l] = w[l] || [];
                 w[l].push({
-                    'gtm.start':
-                        new Date().getTime(), event: 'gtm.js'
+                    'gtm.start': new Date().getTime(),
+                    event: 'gtm.js'
                 });
                 var f = d.getElementsByTagName(s)[0],
-                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : '';
                 j.async = true;
                 j.src =
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
                 f.parentNode.insertBefore(j, f);
-            })(window, document, 'script', 'dataLayer', '<?= $GTM_ID ?>');</script>
-        <?php
+            })(window, document, 'script', 'dataLayer', '<?= $GTM_ID ?>');
+        </script>
+<?php
     }
 
     /**
@@ -155,7 +167,8 @@ class DOT_Core {
      * @param      $name
      * @param bool $value
      */
-    public function define($name, $value = true) {
+    public function define($name, $value = true)
+    {
         if (!defined($name)) {
             define($name, $value);
         }
@@ -166,7 +179,8 @@ class DOT_Core {
      *
      * @return bool
      */
-    public function has_acf() {
+    public function has_acf()
+    {
 
         // If ACF already available, return
         if ($this->acf) {
@@ -177,7 +191,6 @@ class DOT_Core {
         $this->acf = class_exists('ACF') && defined('ACF_PRO') && defined('ACF_VERSION') && version_compare(ACF_VERSION, '5.8', '>=') && class_exists('ACFE');
 
         return $this->acf;
-
     }
 }
 

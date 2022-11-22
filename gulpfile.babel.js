@@ -11,7 +11,7 @@ import del from "del";
 import browserSync from 'browser-sync';
 
 const PRODUCTION = yargs.argv.prod;
-const sass = require('gulp-sass')(require('node-sass'));
+const sass = require('gulp-sass')(require('sass'));
 
 export const scripts = () => {
     return src(['assets/js/frontend.js', 'assets/js/admin.js'])
@@ -47,10 +47,9 @@ export const styles = () => {
         .pipe(gulpif(!PRODUCTION, sourcemaps.init()))
         .pipe(sass().on('error', sass.logError))
         .pipe(gulpif(PRODUCTION, postcss([autoprefixer])))
-        .pipe(gulpif(PRODUCTION, cleanCss({compatibility: 'ie8'})))
+        .pipe(gulpif(PRODUCTION, cleanCss({compatibility: '*'})))
         .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
         .pipe(dest('dist/css'))
-        .pipe(server.stream());
 }
 
 export const watchForChanges = () => {
@@ -60,19 +59,4 @@ export const watchForChanges = () => {
 
 export const clean = () => del(['dist']);
 
-const server = browserSync.create();
-export const serve = done => {
-    server.init({
-        proxy: "https://clospadulis.test" // TODO: gulp config : dynamic proxy URL
-    });
-    done();
-};
-
-export const reload = done => {
-    server.reload();
-    done();
-};
-
-export const dev = series(clean, parallel(styles, scripts), serve, watchForChanges);
 export const build = series(clean, styles, scripts)
-export default dev;

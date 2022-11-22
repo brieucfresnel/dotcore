@@ -1,0 +1,1 @@
+jQuery(document).ready((function(e){e(".-preview a, .-preview button, .-preview input").click((function(e){e.preventDefault()}))}));
