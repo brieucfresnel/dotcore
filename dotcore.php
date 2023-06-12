@@ -52,17 +52,6 @@ class DOT_Core
         define('DOT_CORE_PATH', plugin_dir_path(__FILE__));
         define('DOT_CORE_URL', plugin_dir_url(__FILE__));
         define('DOT_BASENAME', plugin_basename(__FILE__));
-        define('DOT_THEME_PATH', get_stylesheet_directory());
-        define('DOT_THEME_URI', get_stylesheet_directory_uri());
-        define('DOT_THEME_INCLUDES_PATH', get_template_directory() . '/includes/');
-        define('DOT_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/dotstarter/layouts/');
-        define('DOT_THEME_LAYOUTS_URI', get_stylesheet_directory_uri() . '/dotstarter/layouts/');
-        define('DOT_THEME_LAYOUT_PARTS_PATH', get_stylesheet_directory() . '/dotstarter/layout-parts/');
-        define('DOT_THEME_LAYOUT_PARTS_URI', get_stylesheet_directory_uri() . '/dotstarter/layout-parts/');
-        define('DOT_THEME_COMPONENTS_PATH', get_stylesheet_directory() . '/dotstarter/components/');
-        define('DOT_THEME_COMPONENTS_URI', get_stylesheet_directory_uri() . '/dotstarter/components/');
-        define('DOT_THEME_ASSETS_PATH', get_stylesheet_directory() . '/assets/');
-        define('DOT_THEME_ASSETS_URL', get_stylesheet_directory_uri() . '/assets/');
 
         include_once(DOT_CORE_PATH . 'init.php');
 
