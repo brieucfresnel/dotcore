@@ -2,8 +2,9 @@
 
 namespace DOT\Core\Main;
 
-if ( ! class_exists( 'MainFlexible' ) ) {
-	class MainFlexible {
+if (!class_exists('MainFlexible')) {
+	class MainFlexible
+	{
 
 		/**
 		 * The main field group name
@@ -34,11 +35,13 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 		private array $layouts;
 
 
-		public function __construct() {
-			add_action( 'init', array( $this, 'load' ), 10 );
+		public function __construct()
+		{
+			add_action('init', array($this, 'load'), 10);
 		}
 
-		public function load() {
+		public function load()
+		{
 			$this->set_layouts();
 			$this->create_main_group();
 			$this->create_flexible_field();
@@ -49,21 +52,22 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 		 *
 		 * @return void
 		 */
-		private function set_layouts() {
+		private function set_layouts()
+		{
 			$field_groups = acf_get_field_groups();
 			$layouts      = [];
 
-			if ( ! $field_groups ) {
+			if (!$field_groups) {
 				return;
 			}
 
-			foreach ( $field_groups as $field_group ) {
-				if ( ! dot_is_layout( $field_group ) ) {
+			foreach ($field_groups as $field_group) {
+				if (!dot_is_layout($field_group)) {
 					continue;
 				}
 
 				$title       = $field_group['title'];
-				$name        = sanitize_title( $field_group['title'] );
+				$name        = sanitize_title($field_group['title']);
 				$layout_slug = $field_group['dot_layout_slug'];
 				$file_path   = DOT_THEME_LAYOUTS_PATH . $layout_slug . '/';
 
@@ -71,17 +75,17 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 				$render_script = $file_path . $layout_slug . '.js';
 				$render_style  = $file_path . $layout_slug . '.css';
 
-				if ( ! file_exists( $render_style ) ) {
+				if (!file_exists($render_style)) {
 					$render_style = null;
 				}
 
 				// Check if JS file exists before enqueue
-//				if ( ! file_exists( $render_script ) ) {
-//					$render_script = null;
-//				}
+				//				if ( ! file_exists( $render_script ) ) {
+				//					$render_script = null;
+				//				}
 
 				// Get layout alignment
-				switch ( $field_group['label_placement'] ) {
+				switch ($field_group['label_placement']) {
 					case 'top':
 						$display = 'block';
 						break;
@@ -92,19 +96,19 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 				}
 
 				// Get categories for selection modal
-				$categories_terms = get_the_terms( $field_group['ID'], 'acf-field-group-category' );
+				$categories_terms = get_the_terms($field_group['ID'], 'acf-field-group-category');
 				$acfe_categories  = array();
 
-				if ( is_array( $categories_terms ) ) {
-					foreach ( $categories_terms as $category ) {
+				if (is_array($categories_terms)) {
+					foreach ($categories_terms as $category) {
 						$acfe_categories[] = $category->name;
 					}
 				}
 
-				$acfe_categories = empty( $acfe_categories ) ? "" : $acfe_categories;
+				$acfe_categories = empty($acfe_categories) ? "" : $acfe_categories;
 
 				$thumbnail = '';
-				if ( ! empty( $field_group['dot_thumbnail'] ) ) {
+				if (!empty($field_group['dot_thumbnail'])) {
 					$thumbnail = $field_group['dot_thumbnail'];
 				}
 				// Store layout
@@ -117,7 +121,7 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 					'display'                       => $display,
 					'acfe_flexible_render_template' => $render_layout,
 					'acfe_flexible_render_style'    => $render_style,
-//					'acfe_flexible_render_script'   => $render_script,
+					//					'acfe_flexible_render_script'   => $render_script,
 					'acfe_flexible_category'        => $acfe_categories,
 					'acfe_flexible_thumbnail'       => $thumbnail,
 					'acfe_flexible_settings'        => "",
@@ -156,7 +160,8 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 		 *
 		 * @return void
 		 */
-		private function create_main_group() {
+		private function create_main_group()
+		{
 			$config = array(
 				'key'                   => self::$group_key,
 				'title'                 => 'Dispositions',
@@ -178,7 +183,7 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 				'hide_on_screen'        => '',
 				'active'                => true,
 				'description'           => '',
-				'show_in_rest'          => 0,
+				'show_in_rest'          => 1,
 				'acfe_display_title'    => '',
 				'acfe_autosync'         => array(
 					1 => 'php',
@@ -190,7 +195,7 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 				'modified'              => 1647265579,
 			);
 
-			acf_add_local_field_group( $config );
+			acf_add_local_field_group($config);
 		}
 
 
@@ -199,7 +204,8 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 		 *
 		 * @return void
 		 */
-		private function create_flexible_field() {
+		private function create_flexible_field()
+		{
 
 			$config = array(
 				'key'                               => $this->field_key,
@@ -242,14 +248,15 @@ if ( ! class_exists( 'MainFlexible' ) ) {
 				'parent'                      => self::$group_key
 			);
 
-			acf_add_local_field( $config );
+			acf_add_local_field($config);
 		}
 
 		/**
 		 * Get main flexible field key
 		 * @return string
 		 */
-		public function get_field_key(): string {
+		public function get_field_key(): string
+		{
 			return $this->field_key;
 		}
 	}
