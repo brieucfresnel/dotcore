@@ -3,37 +3,21 @@
 namespace DOT\Core\Admin;
 
 if (!class_exists('\Dot\Core\Admin\Admin')) {
-    class Admin {
+    class Admin
+    {
 
-        public function __construct() {
+        public function __construct()
+        {
             add_filter('parent_file', array($this, 'menu_parent_file'));
             add_filter('submenu_file', array($this, 'menu_submenu_file'));
             add_filter('admin_url', array($this, 'change_admin_url'), 10, 2);
-            add_action('in_admin_header', array($this, 'add_navbar'));
-        }
-
-        /**
-         * @return void
-         */
-        public function add_navbar() {
-            if ($this->is_dot_admin_page()) {
-                $this->display_navbar();
-            }
-        }
-
-        /**
-         * @return void
-         */
-        public function display_navbar() {
-            add_filter('acf/admin/toolbar', '__return_false');
-
-            include_once(DOT_CORE_PATH . '/templates/navbar.php');
         }
 
         /**
          * @return bool
          */
-        public function is_dot_admin_page(): bool {
+        public function is_dot_admin_page(): bool
+        {
 
             $is_dot_admin = false;
 
@@ -63,7 +47,8 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
          *
          * @return string
          */
-        public function menu_parent_file($parent_file) {
+        public function menu_parent_file($parent_file)
+        {
 
             if (dot_is_layout_screen() || dot_is_layout_part_screen()) {
                 global $pagenow, $plugin_page;
@@ -82,7 +67,8 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
          *
          * @return string
          */
-        public function menu_submenu_file($submenu_file) {
+        public function menu_submenu_file($submenu_file)
+        {
 
             global $current_screen;
 
@@ -106,7 +92,8 @@ if (!class_exists('\Dot\Core\Admin\Admin')) {
          * @return string
          */
 
-        public function change_admin_url($url, $path) {
+        public function change_admin_url($url, $path)
+        {
 
             // Modify "Add new" link on layouts page
             if ($path === 'post-new.php?post_type=acf-field-group' && acf_maybe_get_GET('layouts') === '1') {

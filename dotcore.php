@@ -128,8 +128,7 @@ class DOT_Core
         $GTM_ID = get_field('key_gtm', 'option');
 
         // Check for GTM ID validity then launch GTM
-        if (!preg_match('/^GTM-[A-Z0-9]{1,7}$/', $GTM_ID)) return;
-
+        if (!$GTM_ID || !preg_match('/^GTM-[A-Z0-9]{1,7}$/', $GTM_ID)) return;
 ?>
         <script>
             (function(w, d, s, l, i) {
