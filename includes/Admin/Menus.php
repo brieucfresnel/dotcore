@@ -4,18 +4,15 @@ namespace DOT\Core\Admin;
 
 use DOT\Core\Main\Components;
 
-class Menus
-{
+class Menus {
 
     private array $submenus;
 
-    public function __construct()
-    {
+    public function __construct() {
         add_action('admin_menu', array($this, 'add_menu_pages'));
     }
 
-    public function add_menu_pages()
-    {
+    public function add_menu_pages() {
         $main_page_slug = 'dotstarter';
 
         $main_page = array(
@@ -24,7 +21,7 @@ class Menus
             "capability" => 'edit_posts',
             "menu_slug" => $main_page_slug,
             "callback" => array($this, 'dashboard'),
-            "icon" => DOT_THEME_ASSETS_URI . '/icons/logo-dot.svg',
+            "icon" => DOT_CORE_ASSETS_URL . '/icons/logo-dot.svg',
             "position" => '80'
         );
 
@@ -99,8 +96,7 @@ class Menus
         $this->submenus = $submenus;
     }
 
-    public function dashboard()
-    {
+    public function dashboard() {
         ob_start();
 ?>
         <div class="card">
@@ -111,8 +107,7 @@ class Menus
 <?php ob_end_flush();
     }
 
-    public function get_submenus()
-    {
+    public function get_submenus() {
         return $this->submenus;
     }
 }

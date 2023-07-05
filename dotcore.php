@@ -26,8 +26,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 
-class DOT_Core
-{
+class DOT_Core {
     /**
      * @var string
      */
@@ -45,13 +44,14 @@ class DOT_Core
      */
     private static ?DOT_Core $instance = null;
 
-    public function __construct()
-    {
+    public function __construct() {
         define('DOT_VERSION', $this->version);
         define('DOT_FILE', __FILE__);
         define('DOT_CORE_PATH', plugin_dir_path(__FILE__));
         define('DOT_CORE_URL', plugin_dir_url(__FILE__));
         define('DOT_BASENAME', plugin_basename(__FILE__));
+        define('DOT_CORE_ASSETS_PATH', DOT_CORE_PATH . '/assets');
+        define('DOT_CORE_ASSETS_URL', DOT_CORE_URL . '/assets');
 
         include_once(DOT_CORE_PATH . 'init.php');
 
@@ -64,8 +64,7 @@ class DOT_Core
         add_action('acf/init', array($this, 'load'));
     }
 
-    public static function getInstance(): ?DOT_Core
-    {
+    public static function getInstance(): ?DOT_Core {
         if (self::$instance === null) {
             self::$instance = new DOT_Core();
         }
@@ -73,8 +72,7 @@ class DOT_Core
         return self::$instance;
     }
 
-    public function load()
-    {
+    public function load() {
         require_once(DOT_CORE_PATH . 'includes/helpers.php');
 
         // Main
@@ -106,25 +104,21 @@ class DOT_Core
         }
     }
 
-    public function init()
-    {
+    public function init() {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_styles'));
         add_action('wp_head', array($this, 'setup_GTM'));
     }
 
-    public function enqueue_styles()
-    {
+    public function enqueue_styles() {
         wp_enqueue_style('dot-admin-styles', DOT_CORE_URL . '/dist/css/admin.css', array(), false);
     }
 
-    public function enqueue_scripts()
-    {
+    public function enqueue_scripts() {
         wp_enqueue_script('dot-admin-js', DOT_CORE_URL . '/dist/js/admin.js', array('jquery'), false);
     }
 
-    public function setup_GTM()
-    {
+    public function setup_GTM() {
         $GTM_ID = get_field('key_gtm', 'option');
 
         // Check for GTM ID validity then launch GTM
@@ -155,8 +149,7 @@ class DOT_Core
      * @param      $name
      * @param bool $value
      */
-    public function define($name, $value = true)
-    {
+    public function define($name, $value = true) {
         if (!defined($name)) {
             define($name, $value);
         }
@@ -167,8 +160,7 @@ class DOT_Core
      *
      * @return bool
      */
-    public function has_acf()
-    {
+    public function has_acf() {
 
         // If ACF already available, return
         if ($this->acf) {
