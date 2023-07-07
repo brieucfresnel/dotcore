@@ -68,24 +68,6 @@ $white: #fff;
   }
 }
 
-//  .layout > .acfe-fc-placeholder.acfe-fc-preview > .acfe-flexible-placeholder:not(:has(.container)):not(:has(.container-fluid)),
-//  .acfe-modal-edit-field_main_flexible .acfe-modal-content {
-//    padding-left: 20px;
-//    padding-right: 20px;
-//  }
-//
-//  .layout:not(.-collapsed) .acf-field:not(.acf-field-repeater) {
-//    margin: 0 20px;
-//  }
-//
-//  .acf-fc-layout-handle {
-//    background: #FFF;
-//  }
-//
-//  .-fields:not(.acfe-modal) .acf-fields.-left > .acf-tab-wrap .acf-tab-group {
-//    padding-left: 10px;
-//  }
-//
 .acf-fields.-left > .acf-field.acf-field-main-flexible::before,
 .acf-fields.-left > .acf-field.acf-field-main-flexible > .acf-label {
   display: none;
@@ -95,16 +77,3 @@ $white: #fff;
   background: 0;
   width: 100%;
 }
-
-//
-//  .-fields:not(.acfe-modal) .acf-fields.-left > .acf-field > .acf-label {
-//    display: none;
-//  }
-//
-//  .acf-fields.-left > .acf-field > .acf-input {
-//    width: 100%;
-//    float: unset;
-//    padding: 0;
-//  }
-//}
-//

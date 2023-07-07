@@ -21,7 +21,7 @@ class Menus {
             "capability" => 'edit_posts',
             "menu_slug" => $main_page_slug,
             "callback" => array($this, 'dashboard'),
-            "icon" => DOT_CORE_ASSETS_URL . '/icons/logo-dot.svg',
+            "icon" => DOT_THEME_ASSETS_URL . 'icons/logo-dot.svg',
             "position" => '80'
         );
 

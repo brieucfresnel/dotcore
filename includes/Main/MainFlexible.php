@@ -3,8 +3,7 @@
 namespace DOT\Core\Main;
 
 if (!class_exists('MainFlexible')) {
-	class MainFlexible
-	{
+	class MainFlexible {
 
 		/**
 		 * The main field group name
@@ -35,13 +34,11 @@ if (!class_exists('MainFlexible')) {
 		private array $layouts;
 
 
-		public function __construct()
-		{
+		public function __construct() {
 			add_action('init', array($this, 'load'), 10);
 		}
 
-		public function load()
-		{
+		public function load() {
 			$this->set_layouts();
 			$this->create_main_group();
 			$this->create_flexible_field();
@@ -52,8 +49,7 @@ if (!class_exists('MainFlexible')) {
 		 *
 		 * @return void
 		 */
-		private function set_layouts()
-		{
+		private function set_layouts() {
 			$field_groups = acf_get_field_groups();
 			$layouts      = [];
 
@@ -78,11 +74,6 @@ if (!class_exists('MainFlexible')) {
 				if (!file_exists($render_style)) {
 					$render_style = null;
 				}
-
-				// Check if JS file exists before enqueue
-				//				if ( ! file_exists( $render_script ) ) {
-				//					$render_script = null;
-				//				}
 
 				// Get layout alignment
 				switch ($field_group['label_placement']) {
@@ -121,7 +112,6 @@ if (!class_exists('MainFlexible')) {
 					'display'                       => $display,
 					'acfe_flexible_render_template' => $render_layout,
 					'acfe_flexible_render_style'    => $render_style,
-					//					'acfe_flexible_render_script'   => $render_script,
 					'acfe_flexible_category'        => $acfe_categories,
 					'acfe_flexible_thumbnail'       => $thumbnail,
 					'acfe_flexible_settings'        => "",
@@ -160,8 +150,7 @@ if (!class_exists('MainFlexible')) {
 		 *
 		 * @return void
 		 */
-		private function create_main_group()
-		{
+		private function create_main_group() {
 			$config = array(
 				'key'                   => self::$group_key,
 				'title'                 => 'Dispositions',
@@ -204,8 +193,7 @@ if (!class_exists('MainFlexible')) {
 		 *
 		 * @return void
 		 */
-		private function create_flexible_field()
-		{
+		private function create_flexible_field() {
 
 			$config = array(
 				'key'                               => $this->field_key,
@@ -255,8 +243,7 @@ if (!class_exists('MainFlexible')) {
 		 * Get main flexible field key
 		 * @return string
 		 */
-		public function get_field_key(): string
-		{
+		public function get_field_key(): string {
 			return $this->field_key;
 		}
 	}

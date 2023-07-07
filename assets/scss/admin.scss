@@ -1,4 +1,4 @@
-$white: #FFF;
+$white: #fff;
 
 #acf-group_main_flexible {
   background: none;
@@ -21,18 +21,7 @@ $white: #FFF;
   .acf-field-main-flexible .layout .acf-fc-layout-handle {
     border: 2px dashed #ccc;
     margin-bottom: 5px;
-    transition: all .3s;
-  }
-
-  .acf-field-main-flexible .layout .acf-fc-layout-handle,
-  .acf-field-main-flexible .layout .acf-fc-layout-controls {
-    opacity: 0;
-  }
-
-  .acf-field-main-flexible .layout .acf-fc-layout-handle:hover,
-  .acf-field-main-flexible .layout .acf-fc-layout-handle:hover + .acf-fc-layout-controls,
-  .acf-field-main-flexible .layout .acf-fc-layout-controls:hover {
-    opacity: 1;
+    transition: all 0.3s;
   }
 
   .acf-field-main-flexible .layout .acf-fc-layout-controls {
@@ -50,21 +39,31 @@ $white: #FFF;
     }
   }
 
-
-  .acf-field-flexible-content[data-name="dot_layouts"] > .acf-input > .acf-flexible-content > .values > .layout > .acfe-fc-placeholder {
+  .acf-field-flexible-content[data-name="dot_layouts"]
+    > .acf-input
+    > .acf-flexible-content
+    > .values
+    > .layout
+    > .acfe-fc-placeholder {
     padding: 5px;
     border: 2px dashed transparent;
   }
 
-  .acf-field-flexible-content[data-name="dot_layouts"] > .acf-input > .acf-flexible-content > .values > .layout:hover > .acfe-fc-placeholder {
-    border: 2px dashed #CCC;
+  .acf-field-flexible-content[data-name="dot_layouts"]
+    > .acf-input
+    > .acf-flexible-content
+    > .values
+    > .layout:hover
+    > .acfe-fc-placeholder {
+    border: 2px dashed #ccc;
   }
 
   .layout > .acfe-fc-placeholder.acfe-fc-preview > .acfe-flexible-placeholder {
     background-color: $white;
   }
 
-  .layout > .acfe-fc-placeholder .acfe-fc-overlay.-hover, .layout > .acfe-fc-placeholder:hover .acfe-fc-overlay {
+  .layout > .acfe-fc-placeholder .acfe-fc-overlay.-hover,
+  .layout > .acfe-fc-placeholder:hover .acfe-fc-overlay {
     background-color: transparent;
   }
 }

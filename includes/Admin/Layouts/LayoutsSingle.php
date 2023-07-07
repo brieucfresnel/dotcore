@@ -3,59 +3,66 @@
 namespace DOT\Core\Admin\Layouts;
 
 
-class LayoutsSingle {
-	public function __construct() {
-		add_action( 'current_screen', array( $this, 'current_screen' ) );
+class LayoutsSingle
+{
+	public function __construct()
+	{
+		add_action('current_screen', array($this, 'current_screen'));
 	}
 
-	public function current_screen() {
-		if ( ! dot_is_layout_screen() ) {
+	public function current_screen()
+	{
+		if (!dot_is_layout_screen()) {
 			return;
 		}
 
 		// Single
-		add_action( 'load-post.php', array( $this, 'load_single' ) );
-		add_action( 'load-post-new.php', array( $this, 'load_single' ) );
+		add_action('load-post.php', array($this, 'load_single'));
+		add_action('load-post-new.php', array($this, 'load_single'));
 
 		// New
-		add_action( 'load-post-new.php', array( $this, 'load_new' ) );
+		add_action('load-post-new.php', array($this, 'load_new'));
 
 		// Edit
-		add_action( 'load-post-edit.php', array( $this, 'load_edit' ) );
+		add_action('load-post-edit.php', array($this, 'load_edit'));
 
 		// Validate before save
-//        add_filter('acf/validate_field_group', array($this, 'validate_layout'), 10, 1);
+		//        add_filter('acf/validate_field_group', array($this, 'validate_layout'), 10, 1);
 
-		add_action( 'acfe/prepare_field_group', array( $this, 'prepare_field_group' ) );
+		add_action('acfe/prepare_field_group', array($this, 'prepare_field_group'));
 	}
 
-	public function load_single() {
-		add_action( 'acf/field_group/admin_head', array( $this, 'metaboxes' ) );
-		add_action( 'save_post', array( $this, 'save_post' ), 12, 3 );
+	public function load_single()
+	{
+		add_action('acf/field_group/admin_head', array($this, 'metaboxes'));
+		add_action('save_post', array($this, 'save_post'), 12, 3);
 	}
 
-	public function load_new() {
-		add_filter( 'acf/validate_field_group', array( $this, 'validate_new' ), 10, 1 );
+	public function load_new()
+	{
+		add_filter('acf/validate_field_group', array($this, 'validate_new'), 10, 1);
 	}
 
-	public function load_edit() {
+	public function load_edit()
+	{
 	}
 
-	public function save_post( $post_id, $post, $update ) {
+	public function save_post($post_id, $post, $update)
+	{
 		// Fire only once
 
-		if ( $post->post_status === 'auto-draft' || $post->post_status === 'trash' ) {
+		if ($post->post_status === 'auto-draft' || $post->post_status === 'trash') {
 			return;
 		}
 
-		$field_group = acf_get_field_group( $post_id );
+		$field_group = acf_get_field_group($post_id);
 
 		// Bail early if field group not found
-		if ( ! $field_group ) {
+		if (!$field_group) {
 			return;
 		}
 
-		$this->generate_directory_files( $field_group );
+		$this->generate_directory_files($field_group);
 	}
 
 	/**
@@ -63,22 +70,23 @@ class LayoutsSingle {
 	 *
 	 * @param $field_group
 	 */
-	public function generate_directory_files( $field_group ) {
+	public function generate_directory_files($field_group)
+	{
 		$layout_title = $field_group['dot_layout_slug'];
 
-		if ( empty( $layout_title ) ) {
+		if (empty($layout_title)) {
 			return;
 		}
 
 		// Create layout folder if doesn't exists
-		if ( ! file_exists( DOT_THEME_LAYOUTS_PATH . $layout_title ) ) {
-			wp_mkdir_p( DOT_THEME_LAYOUTS_PATH . $layout_title );
+		if (!file_exists(DOT_THEME_LAYOUTS_PATH . $layout_title)) {
+			wp_mkdir_p(DOT_THEME_LAYOUTS_PATH . $layout_title);
 		}
 
 		// Create template file if doesn't exists
-		if ( ! file_exists( DOT_THEME_LAYOUTS_PATH . $layout_title . '/' . $layout_title . '.php' ) ) {
+		if (!file_exists(DOT_THEME_LAYOUTS_PATH . $layout_title . '/' . $layout_title . '.php')) {
 
-			touch( DOT_THEME_LAYOUTS_PATH . $layout_title . '/' . $layout_title . '.php' );
+			touch(DOT_THEME_LAYOUTS_PATH . $layout_title . '/' . $layout_title . '.php');
 		}
 	}
 
@@ -89,7 +97,8 @@ class LayoutsSingle {
 	 *
 	 * @return void
 	 */
-	public function validate_new( $layout ) {
+	public function validate_new($layout)
+	{
 		$layout['location'] = array(
 			array(
 				array(
@@ -103,10 +112,15 @@ class LayoutsSingle {
 		return $layout;
 	}
 
-	public function metaboxes() {
+	public function validate_edit($layout)
+	{
+	}
+
+	public function metaboxes()
+	{
 
 		// Remove Yoast metabox
-		remove_meta_box( 'wpseo_meta', 'post', 'normal' );
+		remove_meta_box('wpseo_meta', 'post', 'normal');
 
 		// Get current field group
 		global $field_group;
@@ -114,39 +128,42 @@ class LayoutsSingle {
 		// Meta box: Layout settings
 		add_meta_box(
 			'dot_layout_settings',
-			__( 'Layout settings', 'dotcore' ),
-			array( $this, 'render_meta_box_main' ),
+			__('Layout settings', 'dotcore'),
+			array($this, 'render_meta_box_main'),
 			'acf-field-group',
 			'normal',
 			'high',
-			array( 'field_group' => $field_group )
+			array('field_group' => $field_group)
 		);
 	}
 
-	public function render_meta_box_main( $post, $meta_box ) {
+	public function render_meta_box_main($post, $meta_box)
+	{
 
 		// Get field group
 		$field_group = $meta_box['args']['field_group'];
-		$layout_slug = acf_maybe_get( $field_group, 'dot_layout_slug' ) ? acf_slugify( $field_group['dot_layout_slug'] ) : acf_slugify( get_the_title() );
+		$layout_slug = acf_maybe_get($field_group, 'dot_layout_slug') ? acf_slugify($field_group['dot_layout_slug']) : acf_slugify(get_the_title());
 
-		acf_render_field_wrap( array(
-			'label'        => __( 'Thumbnail', 'acf' ),
+		acf_render_field_wrap(array(
+			'label'        => __('Thumbnail', 'acf'),
 			'type'         => 'image',
 			'name'         => 'dot_thumbnail',
 			'prefix'       => 'acf_field_group',
-			'value'        => ( isset( $group['dot_thumbnail'] ) ) ? $group['dot_thumbnail'] : '',
-			'preview_size' => 'thumbnail',
-		) );
+			'value'        => (isset($field_group['dot_thumbnail'])) ? $field_group['dot_thumbnail'] : '',
+			'return_format' => 'array',
+			'preview_size'  => 'thumbnail',
+			'library'       => 'all',
+		));
 
 		acf_render_field_wrap(
 			array(
-				'label'        => __( 'Slug', 'dotcore' ),
+				'label'        => __('Slug', 'dotcore'),
 				'name'         => 'dot_layout_slug',
 				'prefix'       => 'acf_field_group',
 				'type'         => 'text',
 				'instructions' => '',
 				'value'        => $layout_slug,
-				'placeholder'  => __( 'layout-slug', 'dotcore' ),
+				'placeholder'  => __('layout-slug', 'dotcore'),
 				'required'     => false,
 			)
 		);

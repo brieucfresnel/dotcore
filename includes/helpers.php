@@ -10,8 +10,8 @@ function dot_get_layouts(): array {
 /**
  * @return void
  */
-function dot_the_layouts() {
-    if (has_flexible(acf_get_instance('\DOT\Core\Main\MainFlexible')->get_field_key())):
+function dot_the_layouts(): void {
+    if (has_flexible(acf_get_instance('\DOT\Core\Main\MainFlexible')->get_field_key())) :
         the_flexible(acf_get_instance('\DOT\Core\Main\MainFlexible')->get_field_key());
     endif;
 }

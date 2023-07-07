@@ -25,21 +25,21 @@ if (!class_exists('LayoutSettings')) {
         private int $layout_index;
 
 
-//        public function __construct() {
-//            $this->layout_index = 1;
-//
-//            add_action('acfe/init', array($this, 'create_field_group'));
-//
-//            // Render header & container
-//            add_action(
-//                "acfe/flexible/render/before_template/name=" . MainFlexible::$group_name,
-//                array($this, 'before_template'),
-//                10, 3
-//            );
-//
-//            // Render footer
-//            add_action('acfe/flexible/render/after_template', array($this, 'after_template'), 10, 3);
-//        }
+        //        public function __construct() {
+        //            $this->layout_index = 1;
+        //
+        //            add_action('acfe/init', array($this, 'create_field_group'));
+        //
+        //            // Render header & container
+        //            add_action(
+        //                "acfe/flexible/render/before_template/name=" . MainFlexible::$group_name,
+        //                array($this, 'before_template'),
+        //                10, 3
+        //            );
+        //
+        //            // Render footer
+        //            add_action('acfe/flexible/render/after_template', array($this, 'after_template'), 10, 3);
+        //        }
 
 
         /**
